@@ -185,6 +185,18 @@
 										<div class="titles">
 											<a href="#"><h4>{{$postUpskill->company_name}}</h4></a>
 											<h6>{{$postUpskill->upskill_category}} || <i>Posted {{ $postUpskill->created_at->diffForHumans() }}</i></h6>					
+											<table>
+												<tr>
+													<td><img src="{{asset('homeback/img/view.png')}}" alt="" width="15" height="15"></td>
+													<td>{{$postUpskill->no_of_views}} view/s</td>		
+																							
+												</tr>
+												<tr>
+													<td><img src="{{asset('homeback/img/applications.png')}}" alt="" width="15" height="15"></td>
+													<td>{{$postUpskill->upskill_apply}} application/s</td>	
+												</tr>
+												
+											</table>
 										</div>										
 									</div>								
 									

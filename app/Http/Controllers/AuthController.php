@@ -261,8 +261,9 @@ class AuthController extends Controller
             if ($user->email_verified_status == 1) {
                 // Email is verified, proceed with login 
                 $request->session()->regenerate(); 
-
-                return redirect()->route('home');
+                $intendedUrl = session('url.intended', '/');
+                return redirect()->intended($intendedUrl);
+                // return redirect()->route('home');
             } else {                    
                 // Email is not verified, return a flash message
                 //Auth::logout(); // Log the user out since the email is not verified                    

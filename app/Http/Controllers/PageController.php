@@ -29,12 +29,13 @@ class PageController extends Controller
         $postUpskill = PostUpskill::all();
         $jobLocation = PostJobs::groupBy('job_location')
                 ->selectRaw('job_location, COUNT(*) as location_count')
+                ->WHERE('job_status', 'Open')
                 ->paginate(10);
         $postJobs = PostJobs::where('job_category', $category)
         ->orderBy('created_at', 'desc')
         ->paginate(3);
         //$postJobs = PostJobs::paginate(5); 
-        return view('dashboard.job-category' , compact('categories', 'postJobs','jobLocation','postUpskill'));
+        return view('dashboard.job-category' , compact('categories', 'postJobs','jobLocation','postUpskill','category'));
 
     }
 
@@ -47,9 +48,12 @@ class PageController extends Controller
         ->first();
         $jobLocation = PostJobs::groupBy('job_location')
                 ->selectRaw('job_location, COUNT(*) as location_count')
+                ->WHERE('job_status', 'Open')
                 ->paginate(10);
         $postJobs->increment('no_of_views');
-        
+        // Store the intended URL in the session
+        $url = "view-job/{$id}";
+        session(['url.intended' => $url]);
         return view('dashboard.view-job', compact('postJobs','jobLocation','categories','postUpskill'));
     }
 
@@ -60,9 +64,12 @@ class PageController extends Controller
         $postUpskill = PostUpskill::where('id', $id)->first();
         $jobLocation = PostJobs::groupBy('job_location')
                 ->selectRaw('job_location, COUNT(*) as location_count')
+                ->WHERE('job_status', 'Open')
                 ->paginate(10);
         $postUpskill->increment('no_of_views');
-        
+        // Store the intended URL in the session
+        $url = "view-upskill/{$id}";
+        session(['url.intended' => $url]);
         return view('dashboard.view-upskill', compact('postJobs','jobLocation','categories','postUpskill'));
     }
 
@@ -72,13 +79,14 @@ class PageController extends Controller
         $postUpskill = PostUpskill::all();
         $jobLocation = PostJobs::groupBy('job_location')
                 ->selectRaw('job_location, COUNT(*) as location_count')
+                ->WHERE('job_status', 'Open')
                 ->paginate(10); 
         $postJobs = PostJobs::where('job_location', $id)
         ->where('job_status', 'Open')
         ->paginate(5);
 
         return view('dashboard.view-job-location', compact('jobLocation','categories','postUpskill'
-        ,'postJobs'));
+        ,'postJobs', 'id'));
     }
 
     public function jobApply($id)
@@ -111,6 +119,7 @@ class PageController extends Controller
             $postJobs = PostJobs::where('id', $id)->first();
             $postJobs->increment('job_apply');
 
+            // return redirect('send-mail');
             return redirect()->route('home')->with('success', 'Job application successful, keep checking your email for updates.');
         } else {
             return redirect()->route('login')->with('error', 'You need to login before you can apply for the job.');
@@ -150,6 +159,7 @@ class PageController extends Controller
 
             return redirect()->route('home')->with('success', 'Upskill application successful, keep checking your email for updates.');
         } else {
+
             return redirect()->route('login')->with('error', 'You need to login before you can apply for the upskill.');
         }
     }

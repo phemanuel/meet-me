@@ -57,7 +57,8 @@
     font-weight: bold;
 }
 
-			</style>
+			.style1 {color: #000000}
+            </style>
 		</head>
 		<body>
 
@@ -175,9 +176,8 @@
                                 <img src="{{ asset('storage/' . $postJobs->company_logo) }}" alt="Company Logo" width="60" height="60">
 									<ul class="tags">
 										<li>
-											<a href="#">&nbsp;&nbsp;&nbsp;&nbsp;</a>
-										</li>					
-                                        					
+											<a href="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+										</li>			
 									</ul>
 								</div>
 								<div class="details">
@@ -190,6 +190,19 @@
 									<h5>Job Nature: {{$postJobs->job_type}}</h5>
 									<p class="address"><span class="lnr lnr-map"></span> {{$postJobs->job_location}}</p>
 									<p class="address"><span class="lnr lnr-database"></span> {{$postJobs->job_payment}}</p>
+									<table>
+												<tr>
+													<td><img src="{{asset('homeback/img/view.png')}}" alt="" width="15" height="15"></td>
+													<td>{{$postJobs->no_of_views}} view/s</td>		
+																							
+												</tr>
+												<tr>
+													<td><img src="{{asset('homeback/img/applications.png')}}" alt="" width="15" height="15"></td>
+													<td>{{$postJobs->job_apply}} application/s</td>	
+												</tr>
+												
+											</table>
+											<a href="#"></a>
 								</div>
 							</div>	
 							<div class="single-post job-details">
@@ -287,7 +300,7 @@
 
 										<div class="form-group row" style="width: 100%">
 											<div class="col-lg-8 col-md-12">
-												<input name="EMAIL" placeholder="Enter Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Email '" required="" type="email">
+												<input name="EMAIL" placeholder="Enter Email" onFocus="this.placeholder = ''" onBlur="this.placeholder = 'Enter Email '" required="" type="email">
 												<div style="position: absolute; left: -5000px;">
 													<input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="" type="text">
 												</div>
