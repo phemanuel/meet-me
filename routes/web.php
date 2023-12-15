@@ -60,8 +60,19 @@ use Illuminate\Support\Facades\Route;
         Route::get('profile-picture', 'profilePicture')->middleware('auth')
         ->name('profile-picture');
         Route::post('profile-picture-update', 'profilePictureUpdate')->middleware('auth')
-        ->name('profile-picture-update');     
-        
+        ->name('profile-picture-update');   
+        Route::get('user-message', [DashboardController::class, 'userMessage'])
+        ->name('user-message');  
+        Route::get('user-message-view/{id}', [DashboardController::class, 'userMessageView'])
+        ->name('user-message-view');  
+        Route::get('send-message', [DashboardController::class, 'sendMessage'])
+        ->name('send-message');  
+        Route::get('send-message/{id}', [DashboardController::class, 'sendMessageId'])
+        ->name('send-message-id'); 
+        Route::post('send-message', [DashboardController::class, 'sendMessageAction'])
+        ->name('reply-message-action'); 
+        Route::post('reply-message', [DashboardController::class, 'replyMessageAction'])
+        ->name('reply-message-action');
     });
     
      //----send mail route
@@ -179,6 +190,7 @@ use Illuminate\Support\Facades\Route;
         ->name('update-job');
         Route::get('delete-job/{id}', [DashboardController::class, 'deleteJob'])
         ->name('delete-job');
+        
 
         Route::get('post-upskill', [DashboardController::class, 'postUpskill'])
             ->name('post-upskill');    

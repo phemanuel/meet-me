@@ -7,6 +7,7 @@ use App\Models\PostUpskill;
 use App\Models\JobLocation;
 use App\Models\JobApply;
 use App\Models\User;
+use App\Models\UserMessage;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
@@ -15,12 +16,24 @@ class PageController extends Controller
 
     public function giveReview()
     {
-        return view('dashboard.give-review');
+        $messages = UserMessage::where('to_user_id', '=', $user_id)   
+        ->where('message_status', 'Unread')
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+        $unreadMessagesCount = $messages->count();
+        return view('dashboard.give-review', compact('unreadMessagesCount', 'messages'));
     }
 
     public function paymentSetup()
     {
-        return view('dashboard.payment');
+        $messages = UserMessage::where('to_user_id', '=', $user_id)   
+        ->where('message_status', 'Unread')
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+        $unreadMessagesCount = $messages->count();
+        return view('dashboard.payment', compact('unreadMessagesCount', 'messages'));
     }
 
     public function jobCategory($category)

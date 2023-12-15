@@ -13,6 +13,7 @@ use App\Models\UserCategory;
 use App\Models\PostJobs;
 use App\Models\PostUpskill;
 use App\Models\JobLocation;
+use App\Models\UserMessage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
@@ -153,8 +154,8 @@ class AuthController extends Controller
             session(['email_token' => $email_token]);
             session(['email_message' => $email_message]);
 
-            return redirect()->route('login')->with('success', 'Account created successful.');
-            //return redirect('send-mail');
+            //return redirect()->route('login')->with('success', 'Account created successful.');
+            return redirect('send-mail');
         } catch (ValidationException $e) {
             // Validation failed. Redirect back with validation errors.
             return redirect()->back()->withErrors($e->errors())->withInput();
@@ -212,8 +213,8 @@ class AuthController extends Controller
             session(['email_token' => $email_token]);
             session(['email_message' => $email_message]);
 
-            return redirect()->route('login')->with('success', 'Account created successful.');
-            //return redirect('send-mail');
+            //return redirect()->route('login')->with('success', 'Account created successful.');
+            return redirect('send-mail');
         } catch (ValidationException $e) {
             // Validation failed. Redirect back with validation errors.
             return redirect()->back()->withErrors($e->errors())->withInput();
@@ -380,7 +381,18 @@ class AuthController extends Controller
 
     public function profilePicture()
     {
-        return view('dashboard.user-profile-picture');
+        $user_id = auth()->user()->id;
+        //---All Messages --------------------------------
+        $userMessages = UserMessage::where('to_user_id', $user_id)
+        ->paginate(5);
+        //---Unread Messages --------------------------------
+        $messages = UserMessage::where('to_user_id', '=', $user_id)   
+        ->where('message_status', 'Unread')
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+        $unreadMessagesCount = $messages->count();
+        return view('dashboard.user-profile-picture', compact('unreadMessagesCount', 'messages','userMessages'));
 
     }
 

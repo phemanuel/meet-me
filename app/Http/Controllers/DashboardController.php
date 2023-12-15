@@ -13,6 +13,8 @@ use App\Models\UserPortfolio;
 use App\Models\PostJobs;
 use App\Models\PostUpskill;
 use App\Models\JobLocation;
+use App\Models\JobApply;
+use App\Models\UserMessage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -21,9 +23,16 @@ class DashboardController extends Controller
     //
     public function index()
     {
+        $user_id = auth()->user()->id;
         $countries = Countries::all();
         $categories = UserCategory::all();
-        return view('dashboard.dashboard', compact('countries','categories'));        
+        $messages = UserMessage::where('to_user_id', '=', $user_id)   
+        ->where('message_status', 'Unread')
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+        $unreadMessagesCount = $messages->count();
+        return view('dashboard.dashboard', compact('countries','categories','messages','unreadMessagesCount'));        
     }
     
     public function userRole()
@@ -31,10 +40,17 @@ class DashboardController extends Controller
         $allRoles = UserRoles::all(); // Retrieve all roles from the database
         $user = auth()->user(); // Get the authenticated user
         $userRoles = explode(',', $user->user_roles); // Convert the user's saved roles to an array
+        $messages = UserMessage::where('to_user_id', '=', $user_id)   
+        ->where('message_status', 'Unread')
+        ->orderBy('created_at', 'desc')
+        ->get();
 
+        $unreadMessagesCount = $messages->count();
         return view('dashboard.user-roles')->with([
             'allRoles' => $allRoles,
             'userRoles' => $userRoles,
+            'messages' => $messages,
+            'unreadMessagesCount' => $unreadMessagesCount,
         ]);
     }    
 
@@ -78,8 +94,14 @@ class DashboardController extends Controller
             
             $userSkills = UserSkill::where('user_id', $user_id)
             ->paginate(5);
+            $messages = UserMessage::where('to_user_id', '=', $user_id)   
+            ->where('message_status', 'Unread')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+            $unreadMessagesCount = $messages->count();
     
-            return view('dashboard.user-skills', compact('userSkills'));
+            return view('dashboard.user-skills', compact('userSkills','messages','unreadMessagesCount'));
         } catch (QueryException $e) {
             $errorMessage = 'Error-load user skill: ' . $e->getMessage();
             Log::error($errorMessage);
@@ -182,8 +204,14 @@ class DashboardController extends Controller
             
             $userEducations = UserEducation::where('user_id', $user_id)
             ->paginate(4);
+            $messages = UserMessage::where('to_user_id', '=', $user_id)   
+            ->where('message_status', 'Unread')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+            $unreadMessagesCount = $messages->count();
     
-            return view('dashboard.user-education', compact('userEducations'));
+            return view('dashboard.user-education', compact('userEducations','messages', 'unreadMessagesCount'));
         } catch (QueryException $e) {
             $errorMessage = 'Error-load user education: ' . $e->getMessage();
             Log::error($errorMessage);
@@ -339,8 +367,14 @@ class DashboardController extends Controller
             $userExperiences = UserExperience::where('user_id', $user_id)
             ->orderBy('company_year', 'desc')
             ->paginate(5);
+            $messages = UserMessage::where('to_user_id', '=', $user_id)   
+            ->where('message_status', 'Unread')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+            $unreadMessagesCount = $messages->count();
     
-            return view('dashboard.user-experience', compact('userExperiences'));
+            return view('dashboard.user-experience', compact('userExperiences','messages','unreadMessagesCount'));
         } catch (QueryException $e) {
             $errorMessage = 'Error-load user experience: ' . $e->getMessage();
             Log::error($errorMessage);
@@ -461,8 +495,14 @@ class DashboardController extends Controller
             $userServices = UserService::where('user_id', $user_id)
             ->orderBy('user_service', 'desc')
             ->paginate(5);
+            $messages = UserMessage::where('to_user_id', '=', $user_id)   
+            ->where('message_status', 'Unread')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+            $unreadMessagesCount = $messages->count();
     
-            return view('dashboard.user-service', compact('userServices'));
+            return view('dashboard.user-service', compact('userServices','messages','unreadMessagesCount'));
         } catch (QueryException $e) {
             $errorMessage = 'Error-load user service: ' . $e->getMessage();
             Log::error($errorMessage);
@@ -572,8 +612,14 @@ class DashboardController extends Controller
             
             $userPortfolios = UserPortfolio::where('user_id', $user_id)
             ->paginate(5);
+            $messages = UserMessage::where('to_user_id', '=', $user_id)   
+            ->where('message_status', 'Unread')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $unreadMessagesCount = $messages->count();
     
-            return view('dashboard.user-portfolio', compact('userPortfolios'));
+            return view('dashboard.user-portfolio', compact('userPortfolios','messages','unreadMessagesCount'));
         } catch (QueryException $e) {
             $errorMessage = 'Error-load user portfolio: ' . $e->getMessage();
             Log::error($errorMessage);
@@ -721,9 +767,17 @@ class DashboardController extends Controller
     //-----Organization Controller functions --------------------------------
     public function dashboardOrganization()
     {
+        $user_id = auth()->user()->id;
         $countries = Countries::all();
         $categories = UserCategory::all();
-        return view('dashboard.org-dashboard', compact('countries','categories'));        
+        $messages = UserMessage::where('to_user_id', '=', $user_id)   
+        ->where('message_status', 'Unread')
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+        $unreadMessagesCount = $messages->count();
+        return view('dashboard.org-dashboard', compact('countries','categories','messages',
+        'unreadMessagesCount'));        
     }
     
     public function userRoleOrganization()
@@ -731,10 +785,17 @@ class DashboardController extends Controller
         $allRoles = UserCategory::all(); // Retrieve all category from the database
         $user = auth()->user(); // Get the authenticated user
         $userRoles = explode(',', $user->user_roles); // Convert the user's saved roles to an array
+        $messages = UserMessage::where('to_user_id', '=', $user_id)   
+        ->where('message_status', 'Unread')
+        ->orderBy('created_at', 'desc')
+        ->get();
 
+        $unreadMessagesCount = $messages->count();
         return view('dashboard.user-roles-org')->with([
             'allRoles' => $allRoles,
             'userRoles' => $userRoles,
+            'messages' => $messages,
+            'unreadMessagesCount' => $unreadMessagesCount,
         ]);
     }
 
@@ -775,8 +836,14 @@ class DashboardController extends Controller
         // Get all jobs posted by authenticated user----
         $records = PostJobs::where('user_id', '=', $user_id)            
             ->orderBy('created_at', 'desc')
-            ->paginate(10);            
-        return view('dashboard.post-job', compact('categories','records'));        
+            ->paginate(10);   
+        $messages = UserMessage::where('to_user_id', '=', $user_id)   
+        ->where('message_status', 'Unread')
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+        $unreadMessagesCount = $messages->count();         
+        return view('dashboard.post-job', compact('categories','records','messages','unreadMessagesCount'));        
     }
 
     public function postJobSave(Request $request)
@@ -997,8 +1064,14 @@ class DashboardController extends Controller
         // Get all jobs posted by authenticated user----
         $records = PostUpskill::where('user_id', '=', $user_id)            
             ->orderBy('created_at', 'desc')
-            ->paginate(10);            
-        return view('dashboard.post-upskill', compact('categories','records'));        
+            ->paginate(10);      
+        $messages = UserMessage::where('to_user_id', '=', $user_id)   
+        ->where('message_status', 'Unread')
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+        $unreadMessagesCount = $messages->count();      
+        return view('dashboard.post-upskill', compact('categories','records','messages','unreadMessagesCount'));        
     }
 
     public function postUpskillSave(Request $request)
@@ -1145,6 +1218,281 @@ class DashboardController extends Controller
             return redirect()->route('post-upskill')->with('error', 'Upskill.');
         }
     }    
+
+    // public function JobApplication()
+    // {
+    //     $user_id = auth()->user()->id;
+    //     $categories = UserCategory::all();
+    //     // Get all jobs posted by authenticated user----
+    //     $records = JobApply::where('apply_type', '=', 'Job-Application')            
+    //         ->orderBy('created_at', 'desc')
+    //         ->paginate(10);            
+    //     return view('dashboard.job-application', compact('categories','records'));        
+    // }
+
+    public function userMessage()
+    {
+        try {
+            $user_id = auth()->user()->id;               
+            //---All Messages --------------------------------
+            $userMessages = UserMessage::join('users', 'users.id', '=', 'from_user_id')
+            ->where('to_user_id', $user_id)
+            ->where('message_status', 'Unread')
+            ->selectRaw('users.id as user_id, users.full_name, users.user_picture, COUNT(*) as message_count, user_messages.message_type')
+            ->groupBy('users.id', 'users.full_name', 'users.user_picture', 'user_messages.message_type')
+            ->orderBy('user_messages.created_at', 'desc')
+            ->paginate(5);
+
+
+            //---Unread Messages --------------------------------
+            $messages = UserMessage::where('to_user_id', '=', $user_id)   
+            ->where('message_status', 'Unread')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+             $unreadMessagesCount = $messages->count();
+            // return response()->json([
+            //     'unreadCount' => $unreadMessagesCount,
+            //     'user_id' => $user_id
+            // ]);
+           return view('dashboard.user-message', compact('messages','unreadMessagesCount','userMessages'));
+        } catch (QueryException $e) {
+            $errorMessage = 'Error-load user message: ' . $e->getMessage();
+            Log::error($errorMessage);
+            // Handle the exception (e.g., log it or display an error message)
+            return redirect()->route('user-message')->with('error', 'An error occurred while retrieving user message.');
+        }
+        
+    }
+
+    public function userMessageView($id)
+    {
+        try {
+            $user_id = auth()->user()->id;               
+            //---All Messages --------------------------------
+            $userMessages = UserMessage::join('users', 'users.id', '=', 'user_messages.from_user_id')
+    ->where('user_messages.from_user_id', $id)
+    ->where('user_messages.message_status', 'Unread')
+    ->selectRaw('users.id as user_id, users.full_name, users.user_picture, COUNT(user_messages.id) as message_count')
+    ->groupBy('users.id', 'users.full_name', 'users.user_picture')
+    ->orderBy('user_messages.created_at', 'desc')
+    ->get();
+
+
+
+            $allUserMessages = UserMessage::join('users', 'users.id', '=', 'user_messages.from_user_id')
+            ->where(function ($query) use ($id, $user_id) {
+                $query->where('user_messages.from_user_id', $id)
+                    ->where('user_messages.to_user_id', $user_id);
+            })
+            ->orWhere(function ($query) use ($id, $user_id) {
+                $query->where('user_messages.to_user_id', $id)
+                    ->where('user_messages.from_user_id', $user_id);
+            })
+            ->where('user_messages.message_status', 'Unread')
+            ->selectRaw('users.id as user_id, users.full_name, users.user_picture, COUNT(user_messages.id) as message_count, 
+                user_messages.message_type, user_messages.from_user_type, user_messages.message,
+                user_messages.from_user_email, user_messages.created_at')
+    ->groupBy('users.id', 'users.full_name', 'users.user_picture', 'user_messages.message_type', 
+            'user_messages.from_user_type', 'user_messages.message', 'user_messages.from_user_email', 
+            'user_messages.created_at') 
+            ->orderBy('user_messages.created_at', 'desc')
+            ->get();
+
+
+            //---Unread Messages --------------------------------
+            $messages = UserMessage::where('to_user_id', '=', $user_id)   
+            ->where('message_status', 'Unread')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+             $unreadMessagesCount = $messages->count();
+            // return response()->json([
+            //     'unreadCount' => $unreadMessagesCount,
+            //     'user_id' => $user_id
+            // ]);
+           return view('dashboard.user-message-view', compact('messages','unreadMessagesCount',
+           'userMessages','allUserMessages'));
+        } catch (QueryException $e) {
+            $errorMessage = 'Error-load user message: ' . $e->getMessage();
+            Log::error($errorMessage);
+            // Handle the exception (e.g., log it or display an error message)
+            return redirect()->route('user-message')->with('error', 'An error occurred while retrieving user message.');
+        }
+        
+    }
+
+    public function sendMessage()
+    {
+        try {
+            $user_id = auth()->user()->id;               
+            //---All Messages --------------------------------
+            $userMessages = UserMessage::where('to_user_id', $user_id)
+            ->paginate(5);
+            //---Unread Messages --------------------------------
+            $messages = UserMessage::where('to_user_id', '=', $user_id)   
+            ->where('message_status', 'Unread')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+            $allFreelancers= User::where('user_type', '=', 'Freelancer')
+            ->paginate(5);
+            $allOrganizations= User::where('user_type', '=', 'Organization')
+            ->paginate(5);
+
+            $unreadMessagesCount = $messages->count();
+    
+            return view('dashboard.send-message', compact('messages','unreadMessagesCount','userMessages'
+            ,'allFreelancers','allOrganizations'));
+        } catch (QueryException $e) {
+            $errorMessage = 'Error-load send message: ' . $e->getMessage();
+            Log::error($errorMessage);
+            // Handle the exception (e.g., log it or display an error message)
+            return redirect()->route('send-message')->with('error', 'An error occurred while sending message.');
+        }
+        
+    }
+
+    public function sendMessageId($id)
+    {
+        try {
+            $user_id = auth()->user()->id;               
+            //---All Messages --------------------------------
+            $userMessages = UserMessage::where('to_user_id', $user_id)
+            ->paginate(5);
+            //---Unread Messages --------------------------------
+            $messages = UserMessage::where('to_user_id', '=', $user_id)   
+            ->where('message_status', 'Unread')
+            ->orderBy('created_at', 'desc')
+            ->get();
+            //=------------------------
+            $currentUser = User::findOrFail($id);
+
+            $allFreelancers= User::where('user_type', '=', 'Freelancer')
+            ->paginate(5);
+            $allOrganizations= User::where('user_type', '=', 'Organization')
+            ->paginate(5);
+
+            $unreadMessagesCount = $messages->count();
+    
+            return view('dashboard.send-message-id', compact('messages','unreadMessagesCount','userMessages'
+            ,'allFreelancers','allOrganizations','currentUser'));
+        } catch (QueryException $e) {
+            $errorMessage = 'Error-load send message: ' . $e->getMessage();
+            Log::error($errorMessage);
+            // Handle the exception (e.g., log it or display an error message)
+            return redirect()->route('send-message-id')->with('error', 'An error occurred while sending message.');
+        }
+        
+    }
+
+    public function sendMessageAction(Request $request)
+    {
+        
+        try {
+            $validatedData = $request->validate([
+                'from_user_id' => 'required|integer',
+                'to_user_id' => 'required|integer',
+                'from_user_email' => 'required|string',
+                'to_user_email' => 'required|string',               
+                'from_user_fullname' => 'required|string',
+                'to_user_fullname' => 'required|string', 
+                'from_user_type' => 'required|string',
+                'to_user_type' => 'required|string',   
+                'from_user_picture' => 'required|string',
+                'to_user_picture' => 'required|string',  
+                'message' => 'required|string',
+            ]);
+            
+            // return response()->json([
+            //     'data' => $validatedData,
+            // ]);
+            $userMessages = UserMessage::create([
+                'from_user_id' => $validatedData['from_user_id'],
+                'to_user_id' => $validatedData['to_user_id'],
+                'from_user_email' => $validatedData['from_user_email'],
+                'to_user_email' => $validatedData['to_user_email'],
+                'from_user_fullname' => $validatedData['from_user_fullname'],
+                'to_user_fullname' => $validatedData['to_user_fullname'],
+                'from_user_type' => $validatedData['from_user_type'],
+                'to_user_type' => $validatedData['to_user_type'],
+                'from_user_picture' => $validatedData['from_user_picture'],
+                'to_user_picture' => $validatedData['to_user_picture'],
+                'message' => $validatedData['message'],
+                'message_type' => 'Direct Message',
+                'message_status' => 'Unread',
+                
+            ]);
+    
+             return redirect()->route('send-message')->with('success', 'message sent successfully.');
+        } catch (ValidationException $e) {
+            // Validation failed. Redirect back with validation errors.
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        } catch (Exception $e) {
+            // Log the error
+            $errorMessage = 'Error-save user message: ' . $e->getMessage();
+            Log::error($errorMessage);
+
+            return redirect()->route('send-message')->with('error', $errorMessage);
+           
+            //return redirect()->back()->with('error', 'An error occurred during work experience update. Please try again.');
+        }
+
+    }
+
+    public function replyMessageAction(Request $request)
+    {
+        
+        try {
+            $validatedData = $request->validate([
+                'from_user_id' => 'required|integer',
+                'to_user_id' => 'required|integer',
+                'from_user_email' => 'required|string',
+                'to_user_email' => 'required|string',               
+                'from_user_fullname' => 'required|string',
+                'to_user_fullname' => 'required|string', 
+                'from_user_type' => 'required|string',
+                'to_user_type' => 'required|string',   
+                'from_user_picture' => 'required|string',
+                'to_user_picture' => 'required|string',  
+                'message' => 'required|string',
+            ]);
+            
+            // return response()->json([
+            //     'data' => $validatedData,
+            // ]);
+            $userMessages = UserMessage::create([
+                'from_user_id' => $validatedData['from_user_id'],
+                'to_user_id' => $validatedData['to_user_id'],
+                'from_user_email' => $validatedData['from_user_email'],
+                'to_user_email' => $validatedData['to_user_email'],
+                'from_user_fullname' => $validatedData['from_user_fullname'],
+                'to_user_fullname' => $validatedData['to_user_fullname'],
+                'from_user_type' => $validatedData['from_user_type'],
+                'to_user_type' => $validatedData['to_user_type'],
+                'from_user_picture' => $validatedData['from_user_picture'],
+                'to_user_picture' => $validatedData['to_user_picture'],
+                'message' => $validatedData['message'],
+                'message_type' => 'Direct Message',
+                'message_status' => 'Unread',
+                
+            ]);
+    
+             return redirect()->route('user-message')->with('success', 'message sent successfully.');
+        } catch (ValidationException $e) {
+            // Validation failed. Redirect back with validation errors.
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        } catch (Exception $e) {
+            // Log the error
+            $errorMessage = 'Error-save user message: ' . $e->getMessage();
+            Log::error($errorMessage);
+
+            return redirect()->route('user-message')->with('error', $errorMessage);
+           
+            //return redirect()->back()->with('error', 'An error occurred during work experience update. Please try again.');
+        }
+
+    }
 
     public function textArea()
     {

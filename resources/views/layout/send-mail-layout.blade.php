@@ -370,7 +370,7 @@
                                     </tr>   
                             <tr>
                               <td align="left"><p>Regards,</p>
-                              <strong><p>Meet-Me Team.</p></strong></td>
+                              <strong><p>TalentLoom Team.</p></strong></td>
                             </tr>
                           </tbody>
                         </table>                      </td>

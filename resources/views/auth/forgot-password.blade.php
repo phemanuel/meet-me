@@ -1,5 +1,5 @@
 @extends('layout.forgot-password-layout')
-@section('pageTitle', isset($pageTitle) ? $pageTitle : 'Meet-Me :: Reset Password')
+@section('pageTitle', isset($pageTitle) ? $pageTitle : 'TalentLoom :: Reset Password')
 @section('content')
     content here
 @endsection

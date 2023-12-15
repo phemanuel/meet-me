@@ -76,9 +76,26 @@
                                         <i class="icon-size-fullscreen"></i>
                                     </a>
                                 </li>
-                            </ul>
-                            <ul class="navbar-nav nav-right ml-auto"> 
-                               
+                            </ul><ul class="navbar-nav nav-right ml-auto"> 
+                            <li class="nav-item dropdown">
+                                @if($unreadMessagesCount == 0)
+                                    <a class="nav-link dropdown-toggle" href="{{route('user-message')}}" id="navbarDropdown3" role="button"  aria-haspopup="true" aria-expanded="false">
+                                        <i class="fe fe-bell"></i>
+                                        <!-- <span class="notify">
+                                                    <span class="blink"></span>
+                                        <span class="dot"></span> -->
+                                        </span>
+                                    </a>  
+                                    @elseif($unreadMessagesCount > 0)  
+                                    <a class="nav-link dropdown-toggle" href="{{route('user-message')}}" id="navbarDropdown3" role="button"  aria-haspopup="true" aria-expanded="false">
+                                        <i class="fe fe-bell"></i>
+                                        <span class="notify">
+                                                    <span class="blink"></span>
+                                        <span class="dot"></span>
+                                        </span>
+                                    </a>
+                                    @endif
+                                </li>
                                 <li class="nav-item dropdown user-profile">
                                     <a href="javascript:void(0)" class="nav-link dropdown-toggle " id="navbarDropdown4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <img src="{{ asset('storage/' . auth()->user()->user_picture) }}" alt="avtar-img">
@@ -117,7 +134,7 @@
                         <ul class="metismenu " id="sidebarNav">
                             <li class="nav-static-title">Dashboard</li>
                             
-                            <li><a href="{{ route('home') }}" aria-expanded="false"><i class="nav-icon ti ti-list"></i><span class="nav-title">Meet-Me Job Board</span></a> </li>
+                            <li><a href="{{ route('home') }}" aria-expanded="false"><i class="nav-icon ti ti-list"></i><span class="nav-title">TalentLoom Job Board</span></a> </li>
                             
                             <li><a href="{{ route('user-about') }}" aria-expanded="false"><i class="nav-icon ti ti-comment"></i><span class="nav-title">About Me</span></a> </li>
                             <li><a href="{{ route('user-role') }}" aria-expanded="false"><i class="nav-icon ti ti-info"></i><span class="nav-title">Roles</span></a> </li>
@@ -125,9 +142,9 @@
                             <li><a href="{{ route('user-service') }}" aria-expanded="false"><i class="nav-icon ti ti-layout-grid4-alt"></i><span class="nav-title">Services</span></a> </li>
                             <li><a href="{{ route('user-education') }}" aria-expanded="false"><i class="nav-icon ti ti-layout"></i><span class="nav-title">Education/Certification</span></a> </li>
                             <li class="active"><a href="{{ route('user-experience') }}" aria-expanded="false"><i class="nav-icon ti ti-pencil-alt"></i><span class="nav-title">Work Experience</span></a> </li> 
-                            <li><a href="{{ route('user-portfolio') }}" aria-expanded="false"><i class="nav-icon ti ti-list"></i><span class="nav-title">Project</span></a> </li>                          
-                            
-                            <li class="nav-static-title">Account</li>                           
+                            <li><a href="{{ route('user-portfolio') }}" aria-expanded="false"><i class="nav-icon ti ti-list"></i><span class="nav-title">Project</span></a> </li>    
+
+<li><a href="{{ route('user-message') }}" aria-expanded="false"><i class="nav-icon ti ti-comment"></i><span class="nav-title">Message</span><span class="nav-label label label-success">{{$unreadMessagesCount}}</span></a></li> <li class="nav-static-title">Account</li>                           
                             
                             <li><a href="{{ route('change-password') }}" aria-expanded="false"><i class="nav-icon ti ti-key"></i><span class="nav-title">Change Password</span></a>
                                                             </li>    
@@ -157,9 +174,9 @@
                                                 <li class="breadcrumb-item">
                                                     <a href="{{ route('dashboard') }}"><i class="ti ti-home"></i></a>
                                                 </li>
-                                                <li class="breadcrumb-item">
-                                                    Meet-Me
-                                                </li>
+                                                <li class="breadcrumb-item"> TalentLoom</li>
+<li class="breadcrumb-item active text-primary" aria-current="page"><a href="{{route('user-message')}}">Message</a></li>
+
                                                 <li class="breadcrumb-item active text-primary" aria-current="page"><a href="#">Experience</a></li>
                                                  <li class="breadcrumb-item text-primary" aria-current="page"><a href="{{route('user-about')}}">About</a></li>
                                                 <li class="breadcrumb-item text-primary" aria-current="page"><a href="{{route('user-role')}}">Roles</a></li>

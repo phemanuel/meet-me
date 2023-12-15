@@ -1,5 +1,5 @@
 @extends('layout.org-dashboard-layout')
-@section('pageTitle', isset($pageTitle) ? $pageTitle : 'Meet-Me :: Dashboard')
+@section('pageTitle', isset($pageTitle) ? $pageTitle : 'TalentLoom :: Dashboard')
 @section('content')
     content 
     @endsection

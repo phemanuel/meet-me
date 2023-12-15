@@ -5,7 +5,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="icon" href="portfolioback/img/favicon.png" type="image/png">
-        <title>Meet-Me :: Portfolio</title>
+        <title>TalentLoom :: Portfolio</title>
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="portfolioback/css/bootstrap.css">
         <link rel="stylesheet" href="portfolioback/vendors/linericon/style.css">
