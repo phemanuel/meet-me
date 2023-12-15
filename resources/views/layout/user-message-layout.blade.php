@@ -195,6 +195,17 @@
                             </div>
                         </div>
                         <!-- end row -->
+                        <div>
+                        @if(session('success'))
+                                                    <div class="alert alert-success">
+                                                        {{ session('success') }}
+                                                    </div>
+                                                    @elseif(session('error'))
+                                                    <div class="alert alert-danger">
+                                                        {{ session('error') }}
+                                                    </div>
+                                                    @endif
+                        </div>
                         <!--mail-read-contant-start-->
                         <div class="row">
                             <div class="col-12">
@@ -209,15 +220,7 @@
                                                             </div>
                                                     </div>
                                                     <div class="app-chat-sidebar-user scrollbar scroll_dark">
-                                                    @if(session('success'))
-                                                    <div class="alert alert-success">
-                                                        {{ session('success') }}
-                                                    </div>
-                                                    @elseif(session('error'))
-                                                    <div class="alert alert-danger">
-                                                        {{ session('error') }}
-                                                    </div>
-                                                    @endif
+                                                    
                                                         <div class="app-chat-sidebar-user-item">
                                                         <div class="message-container" style="height: 400px; overflow-y: auto;">
                                                         @if($userMessages->count() == 0)

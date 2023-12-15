@@ -278,7 +278,8 @@
                                                     <div class="message-container" style="height: 400px; overflow-y: auto;">
                                                         @foreach($allUserMessages as $userMessage)
                                                             <div class="text-center py-4">
-                                                                <h6>{{$userMessage->created_at->format('M d, Y')}}</h6>
+                                                            <h6>{{ $userMessage->created_at->format('M d, Y h:i:s A') }}</h6>
+
                                                             </div>
                                                             <div class="chat">
                                                                 <div class="chat-img">
@@ -320,17 +321,17 @@
                                                   <hr>
                                                   <div><button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i></button></div>
                                                 </div>
-                                                @foreach($allUserMessages as $userMessage)
+                                                @foreach($userMessages as $message)
                                                 <input type="hidden" name="from_user_id" value="{{auth()->user()->id}}">
-                                                <input type="hidden" name="to_user_id" value="{{$userMessage->user_id}}">
+                                                <input type="hidden" name="to_user_id" value="{{$message->user_id}}">
                                                 <input type="hidden" name="from_user_email" value="{{auth()->user()->email}}">
-                                                <input type="hidden" name="to_user_email" value="{{$userMessage->from_user_email}}">
+                                                <input type="hidden" name="to_user_email" value="{{$message->from_user_email}}">
                                                 <input type="hidden" name="from_user_fullname" value="{{auth()->user()->full_name}}">
-                                                <input type="hidden" name="to_user_fullname" value="{{$userMessage->full_name}}">
+                                                <input type="hidden" name="to_user_fullname" value="{{$message->full_name}}">
                                                 <input type="hidden" name="from_user_type" value="{{auth()->user()->user_type}}">
-                                                <input type="hidden" name="to_user_type" value="{{$userMessage->from_user_type}}">
+                                                <input type="hidden" name="to_user_type" value="{{$message->from_user_type}}">
                                                 <input type="hidden" name="from_user_picture" value="{{auth()->user()->user_picture}}">
-                                                <input type="hidden" name="to_user_picture" value="{{$userMessage->user_picture}}">
+                                                <input type="hidden" name="to_user_picture" value="{{$message->from_user_picture}}">
                                                 @endforeach
                                             </form>
                                             
