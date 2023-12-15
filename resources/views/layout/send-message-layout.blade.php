@@ -214,6 +214,9 @@
                                                     </div>
                                                     @endif
                                                     <div class="input-group">
+                                                    <div class="text-center mail-sidebar-title px-4">
+                                                                <a href="{{route('user-message')}}" class="btn btn-primary btn-block py-3 font-weight-bold font-18">Inbox </a>
+                                                            </div>
                                                             <input aria-describedby="basic-addon1" class="form-control border-right-0" placeholder="Search..." type="text">
                                                             <div class="input-group-prepend">
                                                                 <span class="input-group-text" id="basic-addon1">

@@ -222,13 +222,19 @@
                                                                     <i class="bg-img-status bg-danger"></i>
                                                                 </div>
                                                                 <div>
-                                                                    <h5 class="mb-0">{{ $message->full_name }}</h5>
+                                                                    <h5 class="mb-0">{{ $message->full_name}}</h5>
                                                                     <p><span><i class="zmdi zmdi-check-all mr-2"></i></span>{{ $message->message_type }}</p>
                                                                    
                                                                 </div>
-                                                                <div class="ml-auto text-right d-none d-xl-block">                                                                    
-                                                                    <span class="badge badge-success">{{ $message->message_count }}</span>
-                                                                </div>
+                                                                <!-- @if($message->message_status === 'Unread')
+                                                                    <div class="ml-auto text-right d-none d-xl-block">                                                                    
+                                                                        <span class="badge badge-success">{{ $message->message_count }}</span>
+                                                                    </div>
+                                                                @elseif($message->message_status === 'Read')
+                                                                    <div class="ml-auto text-right d-none d-xl-block">                                                                    
+                                                                        <span class="badge badge-danger">{{ $message->message_count }}</span>
+                                                                    </div>
+                                                                @endif -->
                                                             </div>
                                                         </a>
                                                     @endforeach
@@ -251,7 +257,7 @@
                                                         </div>
                                                         <div class="app-chat-msg-btn">
                                                             
-                                                            <a aria-expanded="false" aria-haspopup="true" class="font-20 text-muted btn pr-0" data-toggle="dropdown" href="javascript:void(0)">
+                                                            <!-- <a aria-expanded="false" aria-haspopup="true" class="font-20 text-muted btn pr-0" data-toggle="dropdown" href="javascript:void(0)">
                                                                 <i class="fa fa-gear"></i>
                                                             </a>
                                                             <div class="dropdown-menu custom-dropdown dropdown-menu-right p-4">
@@ -265,29 +271,32 @@
                                                                 <a class="dropdown-item" href="javascript:void(0)">
                                                                     <i class="ti ti-trash pr-2"></i>Delete
                                                                 </a>
-                                                            </div>
+                                                            </div> -->
                                                         </div>
                                                     </div>
                                                     <div class="scrollbar scroll_dark app-chat-msg-chat p-4">
+                                                    <div class="message-container" style="height: 400px; overflow-y: auto;">
                                                         @foreach($allUserMessages as $userMessage)
-                                                        <div class="text-center py-4">
-                                                            <h6>{{$userMessage->created_at->format('M d, Y')}}</h6>
-                                                        </div>                                                        
-                                                        <div class="chat">
-                                                            <div class="chat-img">
-                                                                <a data-placement="left" data-toggle="tooltip" href="javascript:void(0)">
-                                                                    <div class="bg-img">
-                                                                        <img class="img-fluid" src="{{ asset('storage/' . $userMessage->user_picture) }}" alt="user">
-                                                                    </div>
-                                                                </a>
+                                                            <div class="text-center py-4">
+                                                                <h6>{{$userMessage->created_at->format('M d, Y')}}</h6>
                                                             </div>
-                                                            <div class="chat-msg">
-                                                                <div class="chat-msg-content ">
-                                                                    <p>{!!$userMessage->message!!}</p>
+                                                            <div class="chat">
+                                                                <div class="chat-img">
+                                                                    <a data-placement="left" data-toggle="tooltip" href="javascript:void(0)">
+                                                                        <div class="bg-img">
+                                                                            <img class="img-fluid" src="{{ asset('storage/' . $userMessage->user_picture) }}" alt="user">
+                                                                        </div>
+                                                                    </a>
+                                                                </div>
+                                                                <div class="chat-msg">
+                                                                    <div class="chat-msg-content">
+                                                                        <p>{!!$userMessage->message!!}</p>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
                                                         @endforeach
+                                                    </div>
+
                                                     </div>
                                                 </div>
                                                
@@ -311,17 +320,18 @@
                                                   <hr>
                                                   <div><button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i></button></div>
                                                 </div>
+                                                @foreach($allUserMessages as $userMessage)
                                                 <input type="hidden" name="from_user_id" value="{{auth()->user()->id}}">
-                                                <input type="hidden" name="to_user_id" value="{{$message->user_id}}">
+                                                <input type="hidden" name="to_user_id" value="{{$userMessage->user_id}}">
                                                 <input type="hidden" name="from_user_email" value="{{auth()->user()->email}}">
-                                                <input type="hidden" name="to_user_email" value="{{$message->from_user_email}}">
+                                                <input type="hidden" name="to_user_email" value="{{$userMessage->from_user_email}}">
                                                 <input type="hidden" name="from_user_fullname" value="{{auth()->user()->full_name}}">
-                                                <input type="hidden" name="to_user_fullname" value="{{$message->full_name}}">
+                                                <input type="hidden" name="to_user_fullname" value="{{$userMessage->full_name}}">
                                                 <input type="hidden" name="from_user_type" value="{{auth()->user()->user_type}}">
-                                                <input type="hidden" name="to_user_type" value="{{$message->from_user_type}}">
+                                                <input type="hidden" name="to_user_type" value="{{$userMessage->from_user_type}}">
                                                 <input type="hidden" name="from_user_picture" value="{{auth()->user()->user_picture}}">
-                                                <input type="hidden" name="to_user_picture" value="{{$message->user_picture}}">
-
+                                                <input type="hidden" name="to_user_picture" value="{{$userMessage->user_picture}}">
+                                                @endforeach
                                             </form>
                                             
                                                     </div>

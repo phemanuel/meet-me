@@ -1237,9 +1237,10 @@ class DashboardController extends Controller
             //---All Messages --------------------------------
             $userMessages = UserMessage::join('users', 'users.id', '=', 'from_user_id')
             ->where('to_user_id', $user_id)
-            ->where('message_status', 'Unread')
-            ->selectRaw('users.id as user_id, users.full_name, users.user_picture, COUNT(*) as message_count, user_messages.message_type')
-            ->groupBy('users.id', 'users.full_name', 'users.user_picture', 'user_messages.message_type')
+            ->orWhere('from_user_id', $user_id)
+            //->where('message_status', 'Unread')
+            ->selectRaw('users.id as user_id, users.full_name, users.user_picture, COUNT(*) as message_count, user_messages.message_type,user_messages.message_status')
+            ->groupBy('users.id', 'users.full_name', 'users.user_picture', 'user_messages.message_type','user_messages.message_status')
             ->orderBy('user_messages.created_at', 'desc')
             ->paginate(5);
 
@@ -1271,12 +1272,13 @@ class DashboardController extends Controller
             $user_id = auth()->user()->id;               
             //---All Messages --------------------------------
             $userMessages = UserMessage::join('users', 'users.id', '=', 'user_messages.from_user_id')
-    ->where('user_messages.from_user_id', $id)
-    ->where('user_messages.message_status', 'Unread')
-    ->selectRaw('users.id as user_id, users.full_name, users.user_picture, COUNT(user_messages.id) as message_count')
-    ->groupBy('users.id', 'users.full_name', 'users.user_picture')
-    ->orderBy('user_messages.created_at', 'desc')
-    ->get();
+            ->where('user_messages.from_user_id', $id) 
+            ->where('user_messages.to_user_id', $user_id)          
+            ->selectRaw('users.id as user_id, users.full_name, users.user_picture, user_messages.from_user_id, COUNT(user_messages.id) as message_count, user_messages.message_status')
+            ->groupBy('users.id', 'users.full_name', 'users.user_picture', 'user_messages.from_user_id', 'user_messages.message_status')
+            ->orderBy('user_messages.created_at', 'desc')
+            ->get();
+
 
 
 
@@ -1289,16 +1291,15 @@ class DashboardController extends Controller
                 $query->where('user_messages.to_user_id', $id)
                     ->where('user_messages.from_user_id', $user_id);
             })
-            ->where('user_messages.message_status', 'Unread')
+            //->where('user_messages.message_status', 'Unread')
             ->selectRaw('users.id as user_id, users.full_name, users.user_picture, COUNT(user_messages.id) as message_count, 
                 user_messages.message_type, user_messages.from_user_type, user_messages.message,
                 user_messages.from_user_email, user_messages.created_at')
-    ->groupBy('users.id', 'users.full_name', 'users.user_picture', 'user_messages.message_type', 
+            ->groupBy('users.id', 'users.full_name', 'users.user_picture', 'user_messages.message_type', 
             'user_messages.from_user_type', 'user_messages.message', 'user_messages.from_user_email', 
             'user_messages.created_at') 
             ->orderBy('user_messages.created_at', 'desc')
             ->get();
-
 
             //---Unread Messages --------------------------------
             $messages = UserMessage::where('to_user_id', '=', $user_id)   
@@ -1307,10 +1308,17 @@ class DashboardController extends Controller
             ->get();
 
              $unreadMessagesCount = $messages->count();
-            // return response()->json([
-            //     'unreadCount' => $unreadMessagesCount,
-            //     'user_id' => $user_id
-            // ]);
+            
+             //----Update Message as read----
+             $readMessage = UserMessage::where('to_user_id', $user_id)
+             ->where('from_user_id', $id)
+             ->get();
+
+            foreach ($readMessage as $message) {
+                $message->message_status = 'Read';
+                $message->save();
+            }
+
            return view('dashboard.user-message-view', compact('messages','unreadMessagesCount',
            'userMessages','allUserMessages'));
         } catch (QueryException $e) {
@@ -1442,7 +1450,7 @@ class DashboardController extends Controller
 
     public function replyMessageAction(Request $request)
     {
-        
+               
         try {
             $validatedData = $request->validate([
                 'from_user_id' => 'required|integer',
@@ -1458,9 +1466,9 @@ class DashboardController extends Controller
                 'message' => 'required|string',
             ]);
             
-            // return response()->json([
-            //     'data' => $validatedData,
-            // ]);
+            //return response()->json([
+              //  'data' => $validatedData,
+           // ]);
             $userMessages = UserMessage::create([
                 'from_user_id' => $validatedData['from_user_id'],
                 'to_user_id' => $validatedData['to_user_id'],
@@ -1478,7 +1486,7 @@ class DashboardController extends Controller
                 
             ]);
     
-             return redirect()->route('user-message')->with('success', 'message sent successfully.');
+            return redirect()->route('user-message')->with('success', 'message sent successfully.');
         } catch (ValidationException $e) {
             // Validation failed. Redirect back with validation errors.
             return redirect()->back()->withErrors($e->errors())->withInput();

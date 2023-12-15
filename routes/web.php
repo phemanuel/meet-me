@@ -70,7 +70,7 @@ use Illuminate\Support\Facades\Route;
         Route::get('send-message/{id}', [DashboardController::class, 'sendMessageId'])
         ->name('send-message-id'); 
         Route::post('send-message', [DashboardController::class, 'sendMessageAction'])
-        ->name('reply-message-action'); 
+        ->name('send-message-action'); 
         Route::post('reply-message', [DashboardController::class, 'replyMessageAction'])
         ->name('reply-message-action');
     });
