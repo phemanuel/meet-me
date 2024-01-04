@@ -191,8 +191,9 @@ class PageController extends Controller
 
     public function findFreelancer()
     {
-        $allFreelancer = User::where('user_type', 'Freelancer')->paginate(10); 
+        $allFreelancer = User::where('user_type', 'Freelancer')->paginate(12); 
+        $categories = UserCategory::all();
 
-        return view('dashboard.find-freelancer', compact('allFreelancer'));
+        return view('dashboard.find-freelancer', compact('allFreelancer','categories'));
     }
 }

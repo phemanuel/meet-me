@@ -65,10 +65,12 @@ class PortfolioController extends Controller
         if (!$user) {
             // Handle the case where the user is not found
             // You can return a custom error message, redirect, or take other actions here
-            return response()->json([
-                'status' => 'error',
-                'message' => 'User not found',
-            ]);
+            // return response()->json([
+            //     'status' => 'error',
+            //     'message' => 'User not found',
+            // ]);
+
+            return view('dashboard.user-not-found');
         }
 
         // Fetch user skills

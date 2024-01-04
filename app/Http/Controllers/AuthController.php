@@ -142,7 +142,7 @@ class AuthController extends Controller
                 'email_verified_status' => 0,
                 'remember_token' => $email_token,
                 'user_picture' => 'profile_pictures/blank.jpg',
-                'user_url' => 'https://meetme.kingsconsult.com.ng/'. $uniqueUsername,
+                'user_url' => 'https://talentloom.kingsconsult.com.ng/'. $uniqueUsername,
                 'user_name_link' =>  $uniqueUsername,
                 'user_type' => 'Freelancer',
             ]);
@@ -201,7 +201,7 @@ class AuthController extends Controller
                 'email_verified_status' => 0,
                 'remember_token' => $email_token,
                 'user_picture' => 'profile_pictures/blank.jpg',
-                'user_url' => 'https://meetme.kingsconsult.com.ng/'. $uniqueUsername,
+                'user_url' => 'https://talentloom.kingsconsult.com.ng/'. $uniqueUsername,
                 'user_name_link' =>  $uniqueUsername,
                 'user_type' => 'Organization',
             ]);

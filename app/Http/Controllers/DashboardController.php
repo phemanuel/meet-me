@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\userRoles;
+use App\Models\UserRoles;
 use App\Models\User;
 use App\Models\UserSkill;
 use App\Models\UserEducation;
@@ -37,6 +37,9 @@ class DashboardController extends Controller
     
     public function userRole()
     {
+        $user = auth()->user();
+        $user_id = $user->id;
+            
         $allRoles = UserRoles::all(); // Retrieve all roles from the database
         $user = auth()->user(); // Get the authenticated user
         $userRoles = explode(',', $user->user_roles); // Convert the user's saved roles to an array
