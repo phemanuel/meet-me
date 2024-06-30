@@ -76,7 +76,9 @@ class PageController extends Controller
     public function viewUpskill($id)
     {
         $categories = UserCategory::all();
-        $postJobs = PostJobs::where('job_status', 'Open');
+        $postJobs = PostJobs::where('job_status', 'Open')
+        ->orderBy('created_at', 'desc')
+        ->get();;
         $postUpskill = PostUpskill::where('id', $id)->first();
         $jobLocation = PostJobs::groupBy('job_location')
                 ->selectRaw('job_location, COUNT(*) as location_count')

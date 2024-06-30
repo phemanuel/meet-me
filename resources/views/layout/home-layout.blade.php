@@ -94,8 +94,8 @@
 								<img src="{{ asset('storage/' . auth()->user()->user_picture) }}" alt="Profile Picture">
 							</div>	
 						</li>
-						<li><a class="ticker-btn" href="{{ route('dashboard-organization') }}">Profile</a></li>
-						<li><a class="ticker-btn" href="{{ route('logout') }}">Logout</a></li>
+						<li><a  href="{{ route('dashboard-organization') }}">Profile</a></li>
+						<li><a  href="{{ route('logout') }}">Logout</a></li>
 						@elseif (auth()->user()->user_type == 'Freelancer')
 						<li class="menu-active"><a href="{{route('home')}}">Home</a></li>
 						  <li><a href="{{route('find-upskill')}}">Upskill Opportunities</a></li>						  
@@ -138,8 +138,8 @@
                             @endif
 				            </ul>
 				          </li>
-						<li><a class="ticker-btn" href="{{ route('signup') }}">Signup</a></li>
-						<li><a class="ticker-btn" href="{{ route('login') }}">Login</a></li>
+						<li><a  href="{{ route('signup') }}">Signup</a></li>
+						<li><a  href="{{ route('login') }}">Login</a></li>
 						@endguest			          				          
 				        </ul>
 				      </nav><!-- #nav-menu-container -->		    		
