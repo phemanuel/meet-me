@@ -160,10 +160,41 @@
 					<div class="row d-flex align-items-center justify-content-center">
 						<div class="about-content col-lg-12">
 							<h1 class="text-white">
-								User not found			
-							</h1>	
-							<p class="text-white link-nav"><a href="{{route('home')}}">TalentLoom </a>  </p>
-						</div>											
+								Job for selected criteria not found, try again.		
+							</h1>							
+				
+						</div>		
+						<div class="banner-content col-lg-12">
+							<form action="{{ route('search-jobs') }}" method="POST" class="serach-form-area">
+								@csrf
+								<div class="row justify-content-center form-wrap">
+									<div class="col-lg-4 form-cols">
+										<input type="text" class="form-control" name="job_title" placeholder="what are you looking for?">
+									</div>
+									
+									<div class="col-lg-3 form-cols">
+										<div class="default-select" id="default-selects2">
+											<select name="job_category">
+											@if(!empty ($categories))
+                                                                    
+                                                                    @foreach ($categories as $category)
+                                                                        <option value="{{ $category->category }}">{{ $category->category }}</option>
+                                                                    @endforeach
+                                                                    @else                                                                    
+                                                                        <option value=""></option>                                                                    
+                                                                    @endif
+											</select>
+										</div>										
+									</div>
+									<div class="col-lg-2 form-cols">
+									    <button type="submit" class="btn btn-info">
+									      <span class="lnr lnr-magnifier"></span> Search
+									    </button>
+									</div>								
+								</div>
+							</form>	
+</div>
+						
 					</div>
 				</div>
 			</section>

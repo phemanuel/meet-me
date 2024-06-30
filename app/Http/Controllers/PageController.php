@@ -7,8 +7,10 @@ use App\Models\PostUpskill;
 use App\Models\JobLocation;
 use App\Models\JobApply;
 use App\Models\User;
+use App\Models\UserRoles;
 use App\Models\UserMessage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class PageController extends Controller
 {
@@ -45,8 +47,9 @@ class PageController extends Controller
                 ->WHERE('job_status', 'Open')
                 ->paginate(10);
         $postJobs = PostJobs::where('job_category', $category)
-        ->orderBy('created_at', 'desc')
-        ->paginate(3);
+                ->WHERE('job_status', 'Open')
+                ->orderBy('created_at', 'desc')
+                ->paginate(3);
         //$postJobs = PostJobs::paginate(5); 
         return view('dashboard.job-category' , compact('categories', 'postJobs','jobLocation','postUpskill','category'));
 
@@ -192,8 +195,50 @@ class PageController extends Controller
     public function findFreelancer()
     {
         $allFreelancer = User::where('user_type', 'Freelancer')->paginate(12); 
+        $userRoles = UserRoles::all();
         $categories = UserCategory::all();
 
-        return view('dashboard.find-freelancer', compact('allFreelancer','categories'));
+        return view('dashboard.find-freelancer', compact('allFreelancer','userRoles','categories'));
+    }
+
+    public function searchJobs(Request $request)
+    {
+
+        try {
+            $request->validate([
+                'job_title' => 'nullable|string',
+                'job_category' => 'nullable|string',
+            ]);
+
+            $jobTitle = $request->input('job_title');
+            $jobCategory = $request->input('job_category');
+
+            $Jobs = PostJobs::when($jobTitle, function ($query) use ($jobTitle) {
+                    return $query->where('job_name', 'like', '%' . $jobTitle . '%');
+                })
+                ->when($jobCategory, function ($query) use ($jobCategory) {
+                    return $query->where('job_category', 'like', '%' . $jobCategory . '%');
+                })
+                ->where('job_status', 'Open')
+                ->orderBy('created_at', 'desc')
+                ->paginate(5);
+
+            $categories = UserCategory::all();
+            $postUpskill = PostUpskill::all();
+            $jobLocation = PostJobs::groupBy('job_location')
+                    ->selectRaw('job_location, COUNT(*) as location_count')
+                    ->where('job_status', 'Open')
+                    ->paginate(10);
+
+            return view('dashboard.job-search', compact('Jobs', 'categories', 'jobLocation', 'postUpskill'));
+        } catch (ValidationException $e) {
+            Log::error('Validation failed: ' . $e->getMessage());
+            return response()->json(['error' => 'Validation failed'], 422);
+        } catch (\Exception $e) {
+            Log::error('An exception occurred: ' . $e->getMessage());
+            return view('dashboard.job-not-found',compact('categories'));
+        }
+
+
     }
 }

@@ -37,6 +37,9 @@ use Illuminate\Support\Facades\Route;
         ->middleware('guest')
         ->name('password.update');
 
+    Route::post('search-jobs', [PageController::class, 'searchJobs'])
+        ->name('search-jobs');     
+
     //----Auth routes--
     Route::controller(AuthController::class)->group(function () {
         //----Login routes    
@@ -203,10 +206,7 @@ use Illuminate\Support\Facades\Route;
         Route::put('update-upskill/{id}', [DashboardController::class, 'updateUpskill'])
         ->name('update-upskill');
         Route::get('delete-upskill/{id}', [DashboardController::class, 'deleteUpskill'])
-        ->name('delete-upskill');
-
-        Route::post('search-jobs', [DashboardController::class, 'searchJobs'])
-        ->name('search-jobs');  
+        ->name('delete-upskill');        
         
         Route::get('payment-setup', [PageController::class, 'paymentSetup'])
             ->name('payment-setup');
@@ -216,6 +216,7 @@ use Illuminate\Support\Facades\Route;
     });
 
     //Other pages routes --------------------------------
+        
     Route::get('view-job/{id}', [PageController::class, 'viewJob'])
             ->name('view-job'); 
     Route::get('view-upskill/{id}', [PageController::class, 'viewUpskill'])

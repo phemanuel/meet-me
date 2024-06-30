@@ -62,13 +62,7 @@ class PortfolioController extends Controller
         // Fetch the user based on the provided username
         $user = User::where('user_name_link', $username)->first();
 
-        if (!$user) {
-            // Handle the case where the user is not found
-            // You can return a custom error message, redirect, or take other actions here
-            // return response()->json([
-            //     'status' => 'error',
-            //     'message' => 'User not found',
-            // ]);
+        if (!$user) {            
 
             return view('dashboard.user-not-found');
         }

@@ -178,13 +178,17 @@
 							<div>
 							<form action="search.html" class="serach-form-area">
 								<div class="row justify-content-center form-wrap">
+								<div class="col-lg-4 form-cols">
+										<input type="text" class="form-control" name="search" placeholder="what are you looking for?">
+									</div>
+									
 									<div class="col-lg-3 form-cols">
 										<div class="default-select" id="default-selects2">
 											<select>
-											@if(!empty ($categories))
+											@if(!empty ($userRoles))
                                                                     
-                                                                    @foreach ($categories as $category)
-                                                                        <option value="{{ $category->category }}">{{ $category->category }}</option>
+                                                                    @foreach ($userRoles as $userRole)
+                                                                        <option value="{{ $userRole->user_roles }}">{{ $userRole->user_roles }}</option>
                                                                     @endforeach
                                                                     @else                                                                    
                                                                         <option value=""></option>                                                                    
@@ -204,8 +208,7 @@
 					<div class="row justify-content-center d-flex align-items-center">					
                     @if($allFreelancer)
                         @foreach($allFreelancer as $allFreelancers)
-                            @if(auth()->check() && $allFreelancers->id === auth()->user()->id)
-                                {{-- Skip the iteration if the user is logged in --}}
+                            @if(auth()->check() && $allFreelancers->id === auth()->user()->id)                                
                                 @continue
                             @endif
                             <div class="col-md-3 single-team">

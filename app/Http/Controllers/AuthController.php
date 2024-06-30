@@ -296,9 +296,9 @@ class AuthController extends Controller
                 'user_phone' => 'nullable|numeric|unique:users,user_phone,' . $id,
                 'country_code' => 'nullable|string',
                 'user_category' => 'nullable|string',
-                'user_about' => 'nullable|string|max_words:200',
+                'user_about' => 'nullable|string|max_words:300',
             ], [
-                'user_about.max_words' => 'The "About Yourself" field cannot exceed 200 words.',
+                'user_about.max_words' => 'The "About Yourself" field cannot exceed 300 words.',
             ]);
         
             // Get the user's preferred username
