@@ -57,6 +57,7 @@
             <div class="title">Email Verification</div>
             <hr><br>
           <form action="{{ route('resend-verification-email') }}">
+            @csrf
             <div>
               <div>                
                 <h3>Please verify your email</h3>

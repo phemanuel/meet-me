@@ -60,7 +60,7 @@
 						@endif
           <div class="title">Signup - Freelancer</div>
         <form action="{{ route('signup.action') }}" method="POST">
-                 @csrf									
+          @csrf									
             <div class="input-boxes">
               <div class="input-box">
                 <i class="fas fa-user"></i>

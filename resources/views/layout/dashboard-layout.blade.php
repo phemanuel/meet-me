@@ -352,7 +352,7 @@ li {
                                                             </div>  
                                                             <hr>
                                                             <div class="form-group">
-                                                                <label for="add1"><span class="style1">About yourself(300 words)</span></label>
+                                                                <label for="add1"><span class="style1">About yourself(400 words)</span></label>
                                                                 <textarea id="editor1" name="user_about" rows="10" cols="50"  required>{{auth()->user()->user_about}}</textarea>
                                                             </div>   
                                                                                                                                                                     

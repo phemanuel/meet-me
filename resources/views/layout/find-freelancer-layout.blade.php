@@ -176,7 +176,8 @@
 						</div>
 					</div>	
 							<div>
-							<form action="search.html" class="serach-form-area">
+							<form action="#" class="serach-form-area">
+								@csrf
 								<div class="row justify-content-center form-wrap">
 								<div class="col-lg-4 form-cols">
 										<input type="text" class="form-control" name="search" placeholder="what are you looking for?">

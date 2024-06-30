@@ -66,12 +66,15 @@ class AuthController extends Controller
                 $jobLocation = PostJobs::groupBy('job_location')
                 ->selectRaw('job_location, COUNT(*) as location_count')
                 ->paginate(5);
+                $postJobAll = PostJobs::where('job_status', 'Open')
+                ->orderBy('created_at', 'desc')
+                ->get();
                 $postJob = PostJobs::where('job_status', 'Open')
                 ->orderBy('created_at', 'desc')
                 ->paginate(5);
                 $totalRecords = PostJobs::count();
         return view('home', compact('categories','totalPercent','postJob','jobLocation','postUpskill'
-                    ,'totalRecords'));
+                    ,'totalRecords','postJobAll'));
         }
         else {
             $jobLocation = PostJobs::groupBy('job_location')
@@ -80,9 +83,13 @@ class AuthController extends Controller
             $postUpskill = PostUpskill::all();
             $postJob = PostJobs::orderBy('created_at', 'desc')
             ->paginate(3);
+            $postJobAll = PostJobs::where('job_status', 'Open')
+                ->orderBy('created_at', 'desc')
+                ->get();
             $categories = UserCategory::all();
             $totalRecords = PostJobs::count();
-            return view('home', compact('categories','postJob','jobLocation','postUpskill','totalRecords'));
+            return view('home', compact('categories','postJob','jobLocation','postUpskill',
+            'totalRecords','postJobAll'));
         }            
             
     }
@@ -296,9 +303,9 @@ class AuthController extends Controller
                 'user_phone' => 'nullable|numeric|unique:users,user_phone,' . $id,
                 'country_code' => 'nullable|string',
                 'user_category' => 'nullable|string',
-                'user_about' => 'nullable|string|max_words:300',
+                'user_about' => 'nullable|string|max_words:400',
             ], [
-                'user_about.max_words' => 'The "About Yourself" field cannot exceed 300 words.',
+                'user_about.max_words' => 'The "About Yourself" field cannot exceed 400 words.',
             ]);
         
             // Get the user's preferred username

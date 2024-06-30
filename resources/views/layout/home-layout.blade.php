@@ -273,6 +273,32 @@
 			</section>
 			<!-- End features Area -->
 <hr>
+<!-- Start popular-post Area -->
+<section class="popular-post-area pt-100">
+				<div class="container">
+					<div class="row align-items-center">
+						<div class="active-popular-post-carusel">
+						@foreach($postJobAll as $job)	
+							<div class="single-popular-post d-flex flex-row">
+								<div class="thumb">
+									<img class="img-fluid" src="{{ asset('storage/' . $job->company_logo) }}" alt="" style="width: 80px; height: 80px;">
+									<a class="btns text-uppercase" href="{{route('view-job', ['id' => $job->id])}}">view job post</a>
+								</div>
+								<div class="details">
+									<a href="#"><h4>{{$job->job_name}}</h4></a>
+									<h6>{{$job->job_location}}</h6>
+									<p>{{$job->job_type}}</p>
+									<p>{{$job->job_payment}}</p>
+								</div>
+							</div>	
+								@endforeach				
+																																												
+						</div>
+					</div>
+				</div>	
+			</section>
+			<!-- End popular-post Area -->
+			 <hr>
 			<!-- Start feature-cat Area -->
 			<section class="feature-cat-area pt-100" id="category">
 				<div class="container">

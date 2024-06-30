@@ -214,7 +214,7 @@
 								<p>You can trust us. we only send latest updates, not a single spam.</p>
 								<div id="mc_embed_signup">
 									<form target="_blank" novalidate="true" action="{{route('subscribe-newsletter')}}" method="get" class="form-inline">
-
+										@csrf
 										<div class="form-group row" style="width: 100%">
 											<div class="col-lg-8 col-md-12">
 												<input name="EMAIL" placeholder="Enter Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Email '" required="" type="email">
