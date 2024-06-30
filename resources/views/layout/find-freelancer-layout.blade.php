@@ -1,345 +1,306 @@
 <!DOCTYPE html>
-	<html lang="zxx" class="no-js">
-	<head>
-		<!-- Mobile Specific Meta -->
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		<!-- Favicon-->
-		<link rel="shortcut icon" href="img/fav.png">
-		<!-- Author Meta -->
-		<meta name="author" content="codepixer">
-		<!-- Meta Description -->
-		<meta name="description" content="">
-		<!-- Meta Keyword -->
-		<meta name="keywords" content="">
-		<!-- meta character set -->
-		<meta charset="UTF-8">
-		<!-- Site Title -->
-		<title>@yield('pageTitle')</title>
-
-		<link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet"> 
-			<!--
-			CSS
-			============================================= -->
-			<link rel="stylesheet" href="{{asset('homeback/css/linearicons.css')}}">
-			<link rel="stylesheet" href="{{asset('homeback/css/font-awesome.min.css')}}">
-			<link rel="stylesheet" href="{{asset('homeback/css/bootstrap.css')}}">
-			<link rel="stylesheet" href="{{asset('homeback/css/magnific-popup.css')}}">
-			<link rel="stylesheet" href="{{asset('homeback/css/nice-select.css')}}">					
-			<link rel="stylesheet" href="{{asset('homeback/css/animate.min.css')}}">
-			<link rel="stylesheet" href="{{asset('homeback/css/owl.carousel.css')}}">
-			<link rel="stylesheet" href="{{asset('homeback/css/main.css')}}">
-			
-			<style>
-				.profile-link {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: inherit;
-}
-
-.profile-frame {
-    width: 40px; /* Adjust the size as needed */
-    height: 40px; /* Adjust the size as needed */
-    /* border: 1px solid #FFFFFF; Adjust the border style and color as needed */
-    border-radius: 50%; /* Makes it a circle */
-    overflow: hidden;
-    margin-right: 10px; /* Adjust the spacing as needed */
-	
-}
-
-.profile-frame img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.profile-link span {
-    font-weight: bold;
-}
-
-			</style>
-		</head>
-		<body>
-
-        <header id="header" id="home">
-			    <div class="container">
-			    	<div class="row align-items-center justify-content-between d-flex">
-				      <div id="logo">
-				        <a href="{{route('dashboard')}}"><img src="{{asset('homeback/img/logo1.png')}}" alt="" title="" /></a>
-				      </div>
-				      <nav id="nav-menu-container">
-				        <ul class="nav-menu">				          
-						  <!-- check if the user is authenticated -->
-				          @auth
-						  <!-- //-----check if user is freelancer or organization---- -->
-						  @if (auth()->user()->user_type == 'Organization')
-						  <li class="menu-active"><a href="{{route('home')}}">Home</a></li>
-				          <li><a href="{{route('post-job')}}">Post Jobs</a></li>				          
-						  <li><a href="{{route('post-upskill')}}">Upskill Opportunities</a></li>
-						  <li><a href="{{route('find-freelancer')}}">Find Freelancers</a></li>
-						  <li class="menu-has-children"><a href="">Browse Jobs</a>
-				            <ul>
-							@if(!empty ($categories))
-                                                                    
-                            @foreach ($categories as $category)
-                            <li><a href="{{route('job-category', ['category' => $category->category])}}">{{$category->category}}</a></li>
-                            @endforeach
-                            @else                                                                    
-                            <li><a href=""></a></li>                                                                   
-                            @endif
-				            </ul>
-				          </li>				          
-						  <li>						
-							<div class="profile-frame">
-								<img src="{{ asset('storage/' . auth()->user()->user_picture) }}" alt="Profile Picture">
-							</div>	
-						</li>
-						<li><a class="ticker-btn" href="{{ route('dashboard-organization') }}">Profile</a></li>
-						<li><a class="ticker-btn" href="{{ route('logout') }}">Logout</a></li>
-						@elseif (auth()->user()->user_type == 'Freelancer')
-						<li class="menu-active"><a href="{{route('home')}}">Home</a></li>
-						  <li><a href="{{route('find-upskill')}}">Upskill Opportunities</a></li>						  
-				          <li><a href="{{route('search-freelancer')}}">Search Freelancers</a></li>
-						  <li class="menu-has-children"><a href="">Browse Jobs</a>
-				            <ul>
-							@if(!empty ($categories))
-                                                                    
-                            @foreach ($categories as $category)
-                            <li><a href="{{route('job-category', ['category' => $category->category])}}">{{$category->category}}</a></li>
-                            @endforeach
-                            @else                                                                    
-                            <li><a href=""></a></li>                                                                   
-                            @endif
-				            </ul>
-				          </li>				          
-						  <li>						
-							<div class="profile-frame">
-								<img src="{{ asset('storage/' . auth()->user()->user_picture) }}" alt="Profile Picture">
-							</div>	
-						</li>
-						<li><a class="ticker-btn" href="{{ route('dashboard') }}">Profile</a></li>
-						<li><a class="ticker-btn" href="{{ route('logout') }}">Logout</a></li>
-						@endif
-						@endauth
-
-						@guest
-						<li class="menu-active"><a href="{{route('home')}}">Home</a></li>
-				          <li><a href="{{route('find-freelancer')}}">Find Freelancers</a></li>
-						  <li><a href="{{route('find-upskill')}}">Upskill Opportunities</a></li>
-						  <li class="menu-has-children"><a href="">Browse Jobs</a>
-				            <ul>
-							@if(!empty ($categories))
-                                                                    
-                            @foreach ($categories as $category)
-                            <li><a href="{{route('job-category', ['category' => $category->category])}}">{{$category->category}}</a></li>
-                            @endforeach
-                            @else                                                                    
-                            <li><a href=""></a></li>                                                                   
-                            @endif
-				            </ul>
-				          </li>
-						<li><a class="ticker-btn" href="{{ route('signup') }}">Signup</a></li>
-						<li><a class="ticker-btn" href="{{ route('login') }}">Login</a></li>
-						@endguest			          				          
-				        </ul>
-				      </nav><!-- #nav-menu-container -->		    		
-			    	</div>
-			    </div>
-			  </header><!-- #header -->
+<html lang="en">
 
 
-			<!-- start banner Area -->
-			<section class="banner-area relative" id="home">	
-				<div class="overlay overlay-bg"></div>
-				<div class="container">
-					<div class="row d-flex align-items-center justify-content-center">
-						<div class="about-content col-lg-12">
-							<h1 class="text-white">
-								Freelancers				
-							</h1>	
-							<p class="text-white link-nav"><a href="{{route('home')}}">Home </a>  <span class="lnr lnr-arrow-right"></span>  <a href="#"> Freelancers</a></p>
-						</div>
-					</div>
-					
-				</div>
-			</section>
-			<!-- End banner Area -->	
+<head>
+<title>@yield('pageTitle')</title> 
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Admin template that can be used to build dashboards for CRM, CMS, etc." />
+    <meta name="author" content="Potenza Global Solutions" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- app favicon -->
+    <link rel="shortcut icon" href="{{asset('dashback/assets/img/favicon.png')}}">
+    <!-- google fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <!-- plugin stylesheets -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('dashback/assets/css/vendors.css')}}" />
+    <!-- app style -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('dashback/assets/css/style.css')}}" />
+</head>
 
+<body>
+    <!-- begin app -->
+    <div class="app">
+        <!-- begin app-wrap -->
+        <div class="app-wrap">            
+            <!-- begin app-header -->
+            <header class="app-header top-bar">
+                <!-- begin navbar -->
+                <nav class="navbar navbar-expand-md">
 
-			<!-- Start team Area -->
-			<section class="team-area section-gap" id="team">
-				<div class="container">
-					<div class="row d-flex justify-content-center">
-						<div class="menu-content pb-70 col-lg-8">
-							<div class="title text-center">								
-							</div>
-						</div>
-					</div>	
-							<div>
-							<form action="#" class="serach-form-area">
-								@csrf
-								<div class="row justify-content-center form-wrap">
-								<div class="col-lg-4 form-cols">
-										<input type="text" class="form-control" name="search" placeholder="what are you looking for?">
-									</div>
-									
-									<div class="col-lg-3 form-cols">
-										<div class="default-select" id="default-selects2">
-											<select>
-											@if(!empty ($userRoles))
-                                                                    
-                                                                    @foreach ($userRoles as $userRole)
-                                                                        <option value="{{ $userRole->user_roles }}">{{ $userRole->user_roles }}</option>
-                                                                    @endforeach
-                                                                    @else                                                                    
-                                                                        <option value=""></option>                                                                    
-                                                                    @endif
-											</select>
-										</div>										
-									</div>
-									<div class="col-lg-2 form-cols">
-									    <button type="button" class="btn btn-info">
-									      <span class="lnr lnr-magnifier"></span> Search
-									    </button>
-									</div>								
-								</div>
-							</form>	
-							<hr>
-							</div>			
-					<div class="row justify-content-center d-flex align-items-center">					
-                    @if($allFreelancer)
+                    <!-- begin navbar-header -->
+                    <div class="navbar-header d-flex align-items-center">
+                        <a href="javascript:void:(0)" class="mobile-toggle"><i class="ti ti-align-right"></i></a>
+                        <a class="navbar-brand" href="{{route('home')}}">
+                            <img src="{{asset('dashback/assets/img/logo.png')}}" class="img-fluid logo-desktop" alt="logo" />
+                            <img src="{{asset('dashback/assets/img/logo-icon.png')}}" class="img-fluid logo-mobile" alt="logo" />
+                        </a>
+                    </div>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="ti ti-align-left"></i>
+                    </button>
+                    <!-- end navbar-header -->
+                    <!-- begin navigation -->
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <div class="navigation d-flex">
+                            <ul class="navbar-nav nav-left">
+                                <li class="nav-item">
+                                    <a href="javascript:void(0)" class="nav-link sidebar-toggle">
+                                        <i class="ti ti-align-right"></i>
+                                    </a>
+                                </li>
+                                <li class="nav-item full-screen d-none d-lg-block" id="btnFullscreen">
+                                    <a href="javascript:void(0)" class="nav-link expand">
+                                        <i class="icon-size-fullscreen"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="navbar-nav nav-right ml-auto"> 
+								@auth
+								<li class="nav-item dropdown">								
+                                @if($unreadMessagesCount == 0)
+                                    <a class="nav-link dropdown-toggle" href="{{route('user-message')}}" id="navbarDropdown3" role="button"  aria-haspopup="true" aria-expanded="false">
+                                        <i class="fe fe-bell"></i>
+                                        <!-- <span class="notify">
+                                                    <span class="blink"></span>
+                                        <span class="dot"></span> -->
+                                        </span>
+                                    </a>  
+                                    @elseif($unreadMessagesCount > 0)  
+                                    <a class="nav-link dropdown-toggle" href="{{route('user-message')}}" id="navbarDropdown3" role="button"  aria-haspopup="true" aria-expanded="false">
+                                        <i class="fe fe-bell"></i>
+                                        <span class="notify">
+                                                    <span class="blink"></span>
+                                        <span class="dot"></span>
+                                        </span>
+                                    </a>
+                                    @endif
+                                </li>								
+
+                                <li class="nav-item dropdown user-profile">
+                                    <a href="javascript:void(0)" class="nav-link dropdown-toggle " id="navbarDropdown4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <img src="{{ asset('storage/' . auth()->user()->user_picture) }}" alt="avtar-img">
+                                        <span class="bg-success user-status"></span>
+                                    </a>
+                                    <div class="dropdown-menu animated fadeIn" aria-labelledby="navbarDropdown">
+                                        <div class="bg-gradient px-4 py-3">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <div class="mr-1">
+                                                    <h4 class="text-white mb-0">{{auth()->user()->full_name}}</h4>
+                                                    <small class="text-white">{{auth()->user()->email}}</small>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="p-4">
+                                            <a class="dropdown-item d-flex nav-link" href="{{ route('logout') }}">
+                                                <i class="zmdi zmdi-power"></i> Logout</a>                                           
+                                        </div>
+                                    </div>
+                                </li>
+								@endauth
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- end navigation -->
+                </nav>
+                <!-- end navbar -->
+            </header>
+            <!-- end app-header -->
+            <!-- begin app-container -->
+            <div class="app-container">
+                <!-- begin app-nabar -->
+                <aside class="app-navbar">
+                    <!-- begin sidebar-nav -->
+                    <div class="sidebar-nav scrollbar scroll_light">
+                        <ul class="metismenu " id="sidebarNav">
+                            <li class="nav-static-title">Dashboard</li>
+                            
+                            <li><a href="{{ route('home') }}" aria-expanded="false"><i class="nav-icon ti ti-list"></i><span class="nav-title">TalentLoom Job Board</span></a> </li>
+                            @auth
+                            <li class="active"><a href="{{ route('user-about') }}" aria-expanded="false"><i class="nav-icon ti ti-comment"></i><span class="nav-title">About Me</span></a> </li>
+                            <li><a href="{{ route('user-role') }}" aria-expanded="false"><i class="nav-icon ti ti-info"></i><span class="nav-title">Roles</span></a> </li>
+                            <li><a href="{{ route('user-skill') }}" aria-expanded="false"><i class="nav-icon ti ti-layout-grid4-alt"></i><span class="nav-title">Skills/Expertise</span></a> </li>
+<li><a href="{{ route('user-service') }}" aria-expanded="false"><i class="nav-icon ti ti-layout-grid4-alt"></i><span class="nav-title">Services</span></a> </li>
+                            <li><a href="{{ route('user-education') }}" aria-expanded="false"><i class="nav-icon ti ti-layout"></i><span class="nav-title">Education/Certification</span></a> </li>
+                            <li><a href="{{ route('user-experience') }}" aria-expanded="false"><i class="nav-icon ti ti-pencil-alt"></i><span class="nav-title">Work Experience</span></a> </li> 
+                            <li><a href="{{ route('user-portfolio') }}" aria-expanded="false"><i class="nav-icon ti ti-list"></i><span class="nav-title">Project</span></a> </li>    
+
+<li><a href="{{ route('user-message') }}" aria-expanded="false"><i class="nav-icon ti ti-comment"></i><span class="nav-title">Message</span><span class="nav-label label label-success">{{$unreadMessagesCount}}</span></a></li> <li class="nav-static-title">Account</li>                           
+                            
+                            <li><a href="{{ route('change-password') }}" aria-expanded="false"><i class="nav-icon ti ti-key"></i><span class="nav-title">Change Password</span></a>
+                                                            </li>    
+                            <li><a href="{{ route('logout') }}" aria-expanded="false"><i class="zmdi zmdi-power"></i><span class="nav-title">Logout</span></a>
+                              @endauth                              </li>                        
+                            
+                        </ul>
+                    </div>
+                    <!-- end sidebar-nav -->
+                </aside>
+                <!-- end app-navbar -->
+                <!-- begin app-main -->
+                <div class="app-main" id="main">
+                    <!-- begin container-fluid -->
+                    <div class="container-fluid">                       
+                         <!-- begin row -->
+						 <div class="row">
+                            <div class="col-md-12 m-b-30">
+                                <!-- begin page title -->
+                                <div class="d-block d-sm-flex flex-nowrap align-items-center">
+                                    <div class="page-title mb-2 mb-sm-0">
+                                        <h1>Freelancers</h1>
+                                    </div>
+                                    <div class="ml-auto d-flex align-items-center">
+                                        <nav>
+                                            <ol class="breadcrumb p-0 m-b-0">
+                                                <li class="breadcrumb-item">
+                                                    <a href="{{ route('home') }}"><i class="ti ti-home"></i></a>
+                                                </li>
+                                                <li class="breadcrumb-item"><a href="{{route('home')}}">TalentLoom Job Board</a> </li>
+												<li class="breadcrumb-item active text-primary" aria-current="page">Freelancers</li>
+												@auth
+<li class="breadcrumb-item active text-primary" aria-current="page"><a href="{{route('user-message')}}">Message</a></li>
+
+                                                <li class="breadcrumb-item active text-primary" aria-current="page">About</li>
+                                                <li class="breadcrumb-item active text-primary" aria-current="page"><a href="{{route('user-role')}}">Roles</a></li>
+                                                <li class="breadcrumb-item active text-primary" aria-current="page"><a href="{{route('user-skill')}}">Skills</a></li>
+                                                <li class="breadcrumb-item active text-primary" aria-current="page"><a href="{{route('user-service')}}">Services</a></li>
+                                                <li class="breadcrumb-item active text-primary" aria-current="page"><a href="{{route('user-education')}}">Education</a></li>
+                                                <li class="breadcrumb-item active text-primary" aria-current="page"><a href="{{route('user-experience')}}">Experience</a></li>
+                                                <li class="breadcrumb-item active text-primary" aria-current="page"><a href="{{route('user-portfolio')}}">Project</a></li>
+												@endauth
+                                            </ol>
+                                        </nav>
+                                    </div>
+                                    
+                                </div>
+                                <!-- end page title -->
+                            </div>
+                        </div>
+
+						<div class="mail-search border-bottom">
+                                                        <div class="row align-items-center mx-0">
+                                                            <div class="col-12">
+                                                                <div class="form-group pt-3">
+                                                                    <input type="text" class="form-control" id="search-input"  placeholder="Search..">
+                                                                    <i class="fa fa-search"></i>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                        <!--start contact contant-->
+                      <!--start contact contant-->
+					  <div class="row" id="freelancer-list">
+						@if($allFreelancer)
                         @foreach($allFreelancer as $allFreelancers)
                             @if(auth()->check() && $allFreelancers->id === auth()->user()->id)                                
                                 @continue
                             @endif
-                            <div class="col-md-3 single-team">
-                                <div class="thumb">
-                                    <img class="img-fluid" src="{{ asset('storage/' . $allFreelancers->user_picture) }}" alt="">
-                                    <div class="align-items-center justify-content-center d-flex">
-                                        <a href="#"><i class="fa fa-facebook"></i></a>									
+                            <div class="col-xl-4 col-sm-6">
+                                <div class="card card-statistics employees-contant px-2">
+                                    <div class="card-body pb-5 pt-4">
+                                        <div class="text-center">
+                                            <div class="text-right">
+                                                <h4><span class="badge badge-primary badge-pill px-3 py-2">$0/hr</span></h4>
+                                            </div>
+                                            <div class="pt-1 bg-img m-auto"><img src="{{ asset('storage/' . $allFreelancers->user_picture) }}" class="img-fluid" alt="employees-img"></div>
+                                            <div class="mt-3 employees-contant-inner">
+                                                <h4 class="mb-1">{{$allFreelancers->full_name}}</h4>
+                                                <h5 class="mb-0 text-muted">{{$allFreelancers->user_roles_major}}</h5>
+                                                <div class="mt-3 ">
+												@php
+														$userRoles = $allFreelancers->user_roles;
+														$rolesArray = explode(',', $userRoles);
+														$maxDisplay = 3;
+													@endphp
+
+													@if (!empty($rolesArray))
+														@foreach ($rolesArray as $index => $userRole)
+															@if ($index < $maxDisplay)
+																<span class="badge badge-pill badge-success-inverse px-3 py-2">
+																	{{ trim($userRole) }}
+																</span>
+															@endif
+														@endforeach
+														@if (count($rolesArray) > $maxDisplay)
+															<span class="badge badge-pill badge-warning-inverse px-3 py-2">
+																+{{ count($rolesArray) - $maxDisplay }}
+															</span>
+														@endif
+													@else
+														<div class="alert alert-warning" role="alert">
+															<span class="badge badge-pill badge-success-inverse px-3 py-2">
+																N/A
+															</span>                                                              
+														</div>
+													@endif
+													<hr>
+													<div class="text-center">
+													<a class="btn btn-primary" href="{{ $allFreelancers->user_url }}">View Profile</a>
+													<a class="btn btn-success" href="">Send Message</a>
+													</div>  
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="meta-text mt-30 text-center">
-                                    <h4>{{$allFreelancers->full_name}}</h4>
-                                    <hr>
-                                    <strong>
-                                        <p class="style2">
-                                            {{$allFreelancers->user_roles_major}}
-                                        </p>
-                                    </strong>    	
-                                </div>  
-                                <hr>
-                                <div class="text-center">
-								<a class="genric-btn primary circle" href="{{ $allFreelancers->user_url }}">View Profile</a>
-                                </div>                          
                             </div>
-                        @endforeach	
+							@endforeach	
                     @else
                         <p>Freelancers unavailable.</p>
                     @endif
+                        <!--end employees contant-->
+                    </div>
+                    <!-- end container-fluid -->
                 </div>
+                <!-- end app-main -->
+            </div>
+            <!-- end app-container -->
+            <!-- begin footer -->
+            <footer class="footer">
+                <div class="row">
+                    <div class="col-12 col-sm-6 text-center text-sm-left">
+                        <p>&copy; Copyright 2019. All rights reserved.</p>
+                    </div>
+                    <div class="col  col-sm-6 ml-sm-auto text-center text-sm-right">
+                        <p><a target="_blank" href="https://www.templateshub.net">Templates Hub</a></p>
+                    </div>
+                </div>
+            </footer>
+            <!-- end footer -->
+        </div>
+        <!-- end app-wrap -->
+    </div>
+    <!-- end app -->
 
-				</div>	
-			</section>
-			<!-- End team Area -->			
+    <!-- plugins -->
+    <script src="{{asset('dashback/assets/js/vendors.js')}}"></script>
 
+    <!-- custom app -->
+    <script src="{{asset('dashback/assets/js/app.js')}}"></script>
+    <script src="{{asset('dashback/assets/ckeditor/ckeditor.js')}}"></script>
+</body>
 
-			<!-- Start callto-action Area -->
-			<section class="callto-action-area section-gap">
-				<div class="container">
-					<div class="row d-flex justify-content-center">
-						<div class="menu-content col-lg-9">
-							<div class="title text-center">
-								<h1 class="mb-10 text-white">Join us today without any hesitation</h1>								
-								<a class="primary-btn" href="{{route('signup-freelancer')}}">Sign Up</a>								
-							</div>
-						</div>
-					</div>	
-				</div>	
-			</section>
-			<!-- End calto-action Area -->
+<!-- Include jQuery for AJAX -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#search-input').on('keyup', function() {
+            let query = $(this).val();
+            $.ajax({
+                url: "{{ route('search-freelancer') }}",
+                type: "GET",
+                data: {'query': query},
+                success: function(data) {
+                    $('#freelancer-list').html(data);
+                },
+                error: function(data) {
+                    console.error('Error:', data);
+                }
+            });
+        });
+    });
+</script>
 
-			
-			
-		
-			<!-- start footer Area -->		
-			<footer class="footer-area section-gap">
-				<div class="container">
-					<div class="row">
-						<div class="col-lg-3  col-md-12">
-							<div class="single-footer-widget">
-								<h6>Quick Links</h6>
-								<ul class="footer-nav">
-									<li><a href="{{route('find-freelancer')}}">Find Freelancers</a></li>
-									<li><a href="{{route('find-job')}}">Find Jobs</a></li>
-									<li><a href="{{route('find-upskill')}}">Upskill Opportunities</a></li>
-									<li><a href="{{route('signup')}}">Sign Up</a></li>
-								</ul>
-							</div>
-						</div>
-						<div class="col-lg-6  col-md-12">
-							<div class="single-footer-widget newsletter">
-								<h6>Newsletter</h6>
-								<p>You can trust us. we only send latest updates, not a single spam.</p>
-								<div id="mc_embed_signup">
-									<form  action="{{route('subscribe-newsletter')}}" method="POST" class="form-inline">
-
-										<div class="form-group row" style="width: 100%">
-											<div class="col-lg-8 col-md-12">
-												<input name="EMAIL" placeholder="Enter Email" onFocus="this.placeholder = ''" onBlur="this.placeholder = 'Enter Email '" required="" type="email">
-												<div style="position: absolute; left: -5000px;">
-													<input name="email" tabindex="-1" value="" type="text">
-												</div>
-											</div> 
-										
-											<div class="col-lg-4 col-md-12">
-												<button type="submit" class="nw-btn primary-btn">Subscribe<span class="lnr lnr-arrow-right"></span></button>
-											</div> 
-										</div>		
-										<div class="info"></div>
-									</form>
-								</div>		
-							</div>
-						</div>
-										
-					</div>
-
-					<div class="row footer-bottom d-flex justify-content-between">
-						 <p class="col-lg-8 col-sm-12 footer-text m-0 text-white">
-							<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Powered by <a href="https://kingsconsult.com.ng" target="_blank">Kings Branding Consult</a>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-						</p>
-						<div class="col-lg-4 col-sm-12 footer-social">
-							<a href="https://www.facebook.com/kingsbconsult" target="_blank"><i class="fa fa-facebook"></i></a>
-							<a href="https://instagram.com/kings_branding_consult" target="_blank"><i class="fa fa-instagram"></i></a>
-							<a href="https://www.linkedin.com/company/kings-branding-consult/" target="_blank"><i class="fa fa-linkedin"></i></a>
-							
-						</div>
-					</div>
-				</div>
-			</footer>
-			<!-- End footer Area -->	
-
-			<script src="{{asset('homeback/js/vendor/jquery-2.2.4.min.js')}}"></script>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.homeback/js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-			<script src="{{asset('homeback/js/vendor/bootstrap.min.js')}}"></script>			
-			<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"></script>
-  			<script src="{{asset('homeback/js/easing.min.js')}}"></script>			
-			<script src="{{asset('homeback/js/hoverIntent.js')}}"></script>
-			<script src="{{asset('homeback/js/superfish.min.js')}}"></script>	
-			<script src="{{asset('homeback/js/jquery.ajaxchimp.min.js')}}"></script>
-			<script src="{{asset('homeback/js/jquery.magnific-popup.min.js')}}"></script>	
-			<script src="{{asset('homeback/js/owl.carousel.min.js')}}"></script>			
-			<script src="{{asset('homeback/js/jquery.sticky.js')}}"></script>
-			<script src="{{asset('homeback/js/jquery.nice-select.min.js')}}"></script>			
-			<script src="{{asset('homeback/js/parallax.min.js')}}"></script>		
-			<script src="{{asset('homeback/js/mail-script.js')}}"></script>	
-			<script src="{{asset('homeback/js/main.js')}}"></script>
-
-            
-		</body>
-	</html>
-
-
-
+</html>

@@ -89,7 +89,8 @@ li {
                                         <i class="icon-size-fullscreen"></i>
                                     </a>
                                 </li>
-                            </ul><ul class="navbar-nav nav-right ml-auto"> 
+                            </ul>
+                            <ul class="navbar-nav nav-right ml-auto"> 
                             <li class="nav-item dropdown">
                                 @if($unreadMessagesCount == 0)
                                     <a class="nav-link dropdown-toggle" href="{{route('user-message')}}" id="navbarDropdown3" role="button"  aria-haspopup="true" aria-expanded="false">

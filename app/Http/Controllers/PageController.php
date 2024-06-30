@@ -195,12 +195,29 @@ class PageController extends Controller
     }
 
     public function findFreelancer()
-    {
-        $allFreelancer = User::where('user_type', 'Freelancer')->paginate(12); 
+    {    
+        $user = auth()->user();
+        if($user){
+            $allFreelancer = User::where('user_type', 'Freelancer')->paginate(20); 
+        $userRoles = UserRoles::all();
+        $categories = UserCategory::all();
+        $messages = UserMessage::where('to_user_id', '=', $user_id)   
+        ->where('message_status', 'Unread')
+        ->orderBy('created_at', 'desc')
+        ->get();
+        $unreadMessagesCount = $messages->count();
+
+        return view('dashboard.find-freelancer', compact('allFreelancer','userRoles','categories',
+        'messages','unreadMessagesCount'));
+        }  
+        else{
+            $allFreelancer = User::where('user_type', 'Freelancer')->paginate(20); 
         $userRoles = UserRoles::all();
         $categories = UserCategory::all();
 
         return view('dashboard.find-freelancer', compact('allFreelancer','userRoles','categories'));
+        }        
+
     }
 
     public function searchJobs(Request $request)
@@ -242,5 +259,74 @@ class PageController extends Controller
         }
 
 
+    }
+
+    public function searchFreelancer(Request $request)
+    {
+        $query = $request->get('query');
+        $allFreelancer = User::where('user_type', 'Freelancer')
+            ->where(function($q) use ($query) {
+                $q->where('full_name', 'LIKE', "%{$query}%")
+                  ->orWhere('user_roles_major', 'LIKE', "%{$query}%");
+            })
+            ->get();
+
+        $output = '';
+
+        if ($allFreelancer->count() > 0) {
+            foreach ($allFreelancer as $allFreelancers) {
+                if (auth()->check() && $allFreelancers->id === auth()->user()->id) {
+                    continue;
+                }
+                $output .= '
+                <div class="col-xl-4 col-sm-6">
+                    <div class="card card-statistics employees-contant px-2">
+                        <div class="card-body pb-5 pt-4">
+                            <div class="text-center">
+                                <div class="text-right">
+                                    <h4><span class="badge badge-primary badge-pill px-3 py-2">$0/hr</span></h4>
+                                </div>
+                                <div class="pt-1 bg-img m-auto">
+                                    <img src="'. asset('storage/' . $allFreelancers->user_picture) .'" class="img-fluid" alt="employees-img">
+                                </div>
+                                <div class="mt-3 employees-contant-inner">
+                                    <h4 class="mb-1">'. $allFreelancers->full_name .'</h4>
+                                    <h5 class="mb-0 text-muted">'. $allFreelancers->user_roles_major .'</h5>
+                                    <div class="mt-3">';
+                                        $userRoles = $allFreelancers->user_roles;
+                                        $rolesArray = explode(',', $userRoles);
+                                        $maxDisplay = 3;
+
+                                        if (!empty($rolesArray)) {
+                                            foreach ($rolesArray as $index => $userRole) {
+                                                if ($index < $maxDisplay) {
+                                                    $output .= '<span class="badge badge-pill badge-success-inverse px-3 py-2">'. trim($userRole) .'</span>';
+                                                }
+                                            }
+                                            if (count($rolesArray) > $maxDisplay) {
+                                                $output .= '<span class="badge badge-pill badge-warning-inverse px-3 py-2">+'. (count($rolesArray) - $maxDisplay) .'</span>';
+                                            }
+                                        } else {
+                                            $output .= '<div class="alert alert-warning" role="alert">
+                                                            <span class="badge badge-pill badge-success-inverse px-3 py-2">N/A</span>                                                              
+                                                        </div>';
+                                        }
+                                        $output .= '<hr>
+                                        <div class="text-center">
+                                            <a class="btn btn-primary" href="'. $allFreelancers->user_url .'">View Profile</a>
+                                            <a class="btn btn-success" href="#">Send Message</a>
+                                        </div>  
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>';
+            }
+        } else {
+            $output .= '<p>Freelancers unavailable.</p>';
+        }
+
+        return response($output);
     }
 }

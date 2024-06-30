@@ -233,7 +233,7 @@ use Illuminate\Support\Facades\Route;
             ->name('find-upskill');  
     Route::get('find-freelancer', [PageController::class, 'findFreelancer'])
             ->name('find-freelancer');  
-    Route::get('search-freelancer', [PageController::class, 'findFreelancer'])
+    Route::get('search-freelancer', [PageController::class, 'searchFreelancer'])
             ->name('search-freelancer'); 
     Route::get('job-category/{category}', [PageController::class, 'jobCategory'])
             ->name('job-category');  
