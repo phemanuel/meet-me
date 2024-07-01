@@ -212,7 +212,7 @@
 												@php
 														$userRoles = $allFreelancers->user_roles;
 														$rolesArray = explode(',', $userRoles);
-														$maxDisplay = 3;
+														$maxDisplay = 2;
 													@endphp
 
 													@if (!empty($rolesArray))
@@ -289,7 +289,7 @@
         $('#search-input').on('keyup', function() {
             let query = $(this).val();
             $.ajax({
-                url: "{{ route('search-freelancer') }}",
+                url: "{{ route('freelancer') }}",
                 type: "GET",
                 data: {'query': query},
                 success: function(data) {

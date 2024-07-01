@@ -261,7 +261,7 @@ class PageController extends Controller
 
     }
 
-    public function searchFreelancer(Request $request)
+    public function Freelancer(Request $request)
     {
         $query = $request->get('query');
         $allFreelancer = User::where('user_type', 'Freelancer')
@@ -295,7 +295,7 @@ class PageController extends Controller
                                     <div class="mt-3">';
                                         $userRoles = $allFreelancers->user_roles;
                                         $rolesArray = explode(',', $userRoles);
-                                        $maxDisplay = 3;
+                                        $maxDisplay = 2;
 
                                         if (!empty($rolesArray)) {
                                             foreach ($rolesArray as $index => $userRole) {
