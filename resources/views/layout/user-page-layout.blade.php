@@ -19,6 +19,12 @@
         <!-- main css -->
         <link rel="stylesheet" href="portfolioback/css/style.css">
         <link rel="stylesheet" href="portfolioback/css/responsive.css">
+		<style>
+			.font-text {
+	/* font-size: 18px; */
+    font-family: Calibri;
+}
+		</style>
     </head>
     <body>
         

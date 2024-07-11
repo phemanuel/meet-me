@@ -19,6 +19,19 @@
         <!-- main css -->
         <link rel="stylesheet" href="portfolioback/css/style.css">
         <link rel="stylesheet" href="portfolioback/css/responsive.css">
+		<style>
+			.font-text {
+	font-size: 44px;
+    font-family: 'Amazone', sans-serif;
+	font-weight: bold;
+    color: black;
+}
+		.style1 {font-family: Calibri}
+        .style2 {font-family: sans-serif}
+        .style3 {
+	font-family: "Lucida Handwriting"
+}
+        </style>
     </head>
     <body>
         
@@ -63,8 +76,8 @@
 							<div class="media-body">
 								<div class="personal_text">
 									<h6>Hello Everybody, i am</h6>
-									<h3>{{$user->full_name}}</h3>
-									<hr>
+									<h1>{{$user->full_name}}</h1>
+<hr>
 									<h4>
 									
                                                                <strong><p class="style2">
@@ -132,7 +145,7 @@
         		<div class="row welcome_inner">
         			<div class="col-lg-6">
         				<div class="welcome_text">
-        					<h4>About Myself</h4>
+        					<h2 style="color: black;">ABOUT MYSELF</h2>
 							<hr>
 							@if($user->user_about)
         					<p>{!!$user->user_about!!}</p>  
@@ -241,7 +254,7 @@
         <section class="feature_area p_120">
         	<div class="container" id="service">
         		<div class="main_title">
-        			<h2>What I Do</h2>
+				<h3 style="color: black;">WHAT I DO</h3>
         			<p>If you are looking for the best to grow and improve your business, you don't have to search for too long, i am available to work with you.</p>
         		</div>
         		<div class="feature_inner row">
@@ -267,7 +280,7 @@
         <section class="home_gallery_area p_120">
         	<div class="container" id="project">
         		<div class="main_title">
-        			<h2>My Projects</h2>
+        			<h3 style="color: black;">My Projects</h3>
         			<p>Check out some of my projects.</p>
         		</div>
         		<div class="isotope_fillter">

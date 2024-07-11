@@ -197,7 +197,9 @@ class PageController extends Controller
     public function findFreelancer()
     {    
         $user = auth()->user();
+       
         if($user){
+            $user_id = $user->id;
             $allFreelancer = User::where('user_type', 'Freelancer')->paginate(20); 
         $userRoles = UserRoles::all();
         $categories = UserCategory::all();
