@@ -4,7 +4,7 @@
 		<!-- Mobile Specific Meta -->
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<!-- Favicon-->
-		<link rel="shortcut icon" href="{{asset('homeback/img/fav.png')}}">
+		<link rel="shortcut icon" href="{{asset('homeback/img/favicon_new.png')}}">
 		<!-- Author Meta -->
 		<meta name="author" content="codepixer">
 		<!-- Meta Description -->
@@ -58,6 +58,43 @@
 }
 
 			</style>
+			<style>
+	.message-icon-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.message-icon {
+  width: 24px; /* Adjust the size as needed */
+  height: auto;
+}
+
+.badge {
+  position: absolute;
+  top: -10px; /* Adjust as needed */
+  right: -10px; /* Adjust as needed */
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.blink {
+  animation: blink-animation 1s steps(2, start) infinite;
+}
+
+@keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+
+			</style>
 		</head>
 		<body>
 
@@ -89,13 +126,21 @@
                             @endif
 				            </ul>
 				          </li>				          
-						  <li>						
+						  <li>
+							<a href="{{ route('user-message') }}" class="message-icon-wrapper">
+								<img src="{{ asset('homeback/img/message.png') }}" alt="message_icon" class="message-icon">
+								<span class="badge {{ $unreadMessagesCount > 1 ? 'blink' : '' }}">{{ $unreadMessagesCount }}</span>
+							</a>
+							</li>
+						  <li class="menu-has-children">
 							<div class="profile-frame">
 								<img src="{{ asset('storage/' . auth()->user()->user_picture) }}" alt="Profile Picture">
 							</div>	
-						</li>
-						<li><a  href="{{ route('dashboard-organization') }}">Profile</a></li>
-						<li><a  href="{{ route('logout') }}">Logout</a></li>
+							<ul>
+							<li><a href="{{ route('dashboard-organization') }}">Profile</a></li>
+							<li><a href="{{ route('logout') }}">Logout</a></li>
+							</ul>
+						</li>	
 						@elseif (auth()->user()->user_type == 'Freelancer')
 						<li class="menu-active"><a href="{{route('home')}}">Home</a></li>
 						  <li><a href="{{route('find-upskill')}}">Upskill Opportunities</a></li>						  
@@ -111,14 +156,23 @@
                             <li><a href=""></a></li>                                                                   
                             @endif
 				            </ul>
-				          </li>				          
-						  <li>						
+				          </li>	
+						  <li>
+							<a href="{{ route('user-message') }}" class="message-icon-wrapper">
+								<img src="{{ asset('homeback/img/message.png') }}" alt="message_icon" class="message-icon">
+								<span class="badge {{ $unreadMessagesCount > 1 ? 'blink' : '' }}">{{ $unreadMessagesCount }}</span>
+							</a>
+							</li>			          
+						  <li class="menu-has-children">
 							<div class="profile-frame">
 								<img src="{{ asset('storage/' . auth()->user()->user_picture) }}" alt="Profile Picture">
 							</div>	
-						</li>
-						<li><a class="ticker-btn" href="{{ route('dashboard') }}">Profile</a></li>
-						<li><a class="ticker-btn" href="{{ route('logout') }}">Logout</a></li>
+							<ul>
+							<li><a href="{{ route('dashboard') }}">Profile</a></li>
+							<li><a href="{{ route('logout') }}">Logout</a></li>
+							</ul>
+						</li>	
+						
 						@endif
 						@endauth
 

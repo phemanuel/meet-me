@@ -4,7 +4,7 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link rel="icon" href="portfolioback/img/favicon.png" type="image/png">
+        <link rel="icon" href="portfolioback/img/favicon_new.png" type="image/png">
         <title>TalentLoom :: Portfolio</title>
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="portfolioback/css/bootstrap.css">
@@ -19,12 +19,6 @@
         <!-- main css -->
         <link rel="stylesheet" href="portfolioback/css/style.css">
         <link rel="stylesheet" href="portfolioback/css/responsive.css">
-		<style>
-			.font-text {
-	/* font-size: 18px; */
-    font-family: Calibri;
-}
-		</style>
     </head>
     <body>
         
@@ -34,7 +28,7 @@
             	<nav class="navbar navbar-expand-lg navbar-light">
 					<div class="container box_1620">
 						<!-- Brand and toggle get grouped for better mobile display -->
-						<a class="navbar-brand logo_h" href="#"><img src="portfolioback/img/logo.png" alt=""></a>
+						<a class="navbar-brand logo_h" href="#"><img src="portfolioback/img/loom_logo.png" alt=""></a>
 						<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
@@ -64,7 +58,7 @@
 					<div class="banner_content">
 						<div class="media">
 							<div class="d-flex">
-								<img src="{{ asset('storage/' . $user->profile_picture) }}" width="468" height="483" alt="">
+								<img src="{{ asset('storage/app/public/' . $user->profile_picture) }}" width="468" height="483" alt="">
 							</div>
 							<div class="media-body">
 								<div class="personal_text">
@@ -227,7 +221,7 @@
 										<div class="media-body">
 											<h4>{{$userEducations->college_name}}</h4>
 											<p><i class="fa fa-star"></i> <strong> {{$userEducations->college_qualification}}</strong> <br />
-											<a href="{{ asset('storage/' . $userEducations->college_certificate) }}" target="_blank">View Certificate</a> </p>
+											<a href="{{ asset('storage/app/public/' . $userEducations->college_certificate) }}" target="_blank">View Certificate</a> </p>
 										</div>
 									</div>
 								</li>
@@ -292,8 +286,8 @@
         			<div class="col-lg-4 col-md-4 col-sm-6 brand design print">
         				<div class="h_gallery_item">
         					<div class="g_img_item">
-        						<img class="img-fluid" src="{{ asset('storage/' . $userPortfolioImages->file_url) }}" alt="">
-        						<a class="light" href="{{ asset('storage/' . $userPortfolioImages->file_url) }}"><img src="img/gallery/icon.png" alt=""></a>
+        						<img class="img-fluid" src="{{ asset('storage/app/public/' . $userPortfolioImages->file_url) }}" alt="">
+        						<a class="light" href="{{ asset('storage/app/public/' . $userPortfolioImages->file_url) }}"><img src="img/gallery/icon.png" alt=""></a>
         					</div>
         					<div class="g_item_text">
         						<h4>{{$userPortfolioImages->file_name}}</h4>
@@ -313,12 +307,12 @@
 								<div class="h_gallery_item">
 									<div class="g_img_item">
 										@if (Str::endsWith($userPortfolioDocuments->file_url, '.pdf'))
-											<object data="{{ asset('storage/' . $userPortfolioDocuments->file_url) }}" type="application/pdf" width="100%" height="250">
-												<p>Your browser does not support PDFs. <a href="{{ asset('storage/' . $userPortfolioDocuments->file_url) }}">Download PDF</a> instead.</p>
+											<object data="{{ asset('storage/app/public/' . $userPortfolioDocuments->file_url) }}" type="application/pdf" width="100%" height="250">
+												<p>Your browser does not support PDFs. <a href="{{ asset('storage/app/public/' . $userPortfolioDocuments->file_url) }}">Download PDF</a> instead.</p>
 											</object>
 										@else
-											<img class="img-fluid" src="{{ asset('storage/' . $userPortfolioDocuments->file_url) }}" alt="">
-											<a class="light" href="{{ asset('storage/' . $userPortfolioDocuments->file_url) }}"><img src="img/gallery/icon.png" alt=""></a>
+											<img class="img-fluid" src="{{ asset('storage/app/public/' . $userPortfolioDocuments->file_url) }}" alt="">
+											<a class="light" href="{{ asset('storage/app/public/' . $userPortfolioDocuments->file_url) }}"><img src="img/gallery/icon.png" alt=""></a>
 										@endif
 									</div>
 									<div class="g_item_text">

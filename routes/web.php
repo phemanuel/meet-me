@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PortfolioController;
@@ -7,6 +8,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\CustomForgotPasswordController;
 use App\Http\Middleware\TrackFailedLoginAttempts;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -197,8 +199,8 @@ use Illuminate\Support\Facades\Route;
 
         Route::get('post-upskill', [DashboardController::class, 'postUpskill'])
             ->name('post-upskill');    
-        Route::get('view-upskill', [DashboardController::class, 'viewUpskill'])
-            ->name('view-upskill');    
+        // Route::get('view-upskill', [DashboardController::class, 'viewUpskill'])
+        //     ->name('view-upskill');    
         Route::post('post-upskill-save', [DashboardController::class, 'postUpskillSave'])
         ->name('post-upskill-save');
         Route::get('edit-upskill/{id}', [DashboardController::class, 'editUpskill'])
@@ -243,7 +245,8 @@ use Illuminate\Support\Facades\Route;
             ->name('contact-us');  
 
     Route::get('user-locked', [AuthController::class, 'userLocked'])
-        ->name('user-locked'); 
+        ->name('user-locked');           
+        
     
     Route::get('/{username}', [PortfolioController::class, 'userPortfolio'])
             ->name('portfolio'); 

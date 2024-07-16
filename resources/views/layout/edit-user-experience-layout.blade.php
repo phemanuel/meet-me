@@ -10,7 +10,7 @@
     <meta name="author" content="Kings Branding Consult" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <!-- app favicon -->
-    <link rel="shortcut icon" href="{{asset('dashback/assets/img/favicon.png')}}">
+    <link rel="shortcut icon" href="{{asset('dashback/assets/img/favicon_new.png')}}">
     <!-- google fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
     <!-- plugin stylesheets -->
@@ -54,8 +54,8 @@
                     <div class="navbar-header d-flex align-items-center">
                         <a href="javascript:void:(0)" class="mobile-toggle"><i class="ti ti-align-right"></i></a>
                         <a class="navbar-brand" href="{{route('home')}}">
-                            <img src="{{asset('dashback/assets/img/logo.png')}}" class="img-fluid logo-desktop" alt="logo" />
-                            <img src="{{asset('dashback/assets/img/logo-icon.png')}}" class="img-fluid logo-mobile" alt="logo" />
+                            <img src="{{asset('dashback/assets/img/loom_logo.png')}}" class="img-fluid logo-desktop" alt="logo" />
+                            <img src="{{asset('dashback/assets/img/loom_logo.png')}}" class="img-fluid logo-mobile" alt="logo" />
                         </a>
                     </div>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -98,7 +98,7 @@
                                 </li>
                                 <li class="nav-item dropdown user-profile">
                                     <a href="javascript:void(0)" class="nav-link dropdown-toggle " id="navbarDropdown4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <img src="{{ asset('storage/' . auth()->user()->user_picture) }}" alt="avtar-img">
+                                        <img src="{{ asset('storage/app/public/' . auth()->user()->user_picture) }}" alt="avtar-img">
                                         <span class="bg-success user-status"></span>
                                     </a>
                                     <div class="dropdown-menu animated fadeIn" aria-labelledby="navbarDropdown">
@@ -204,7 +204,7 @@
                                                     <div class="profile-img text-center rounded-circle">
                                                         <div class="pt-5">
                                                             <div class="bg-img m-auto">
-                                                                <img src="{{ asset('storage/' . auth()->user()->user_picture) }}" class="img-fluid" alt="users-avatar">
+                                                                <img src="{{ asset('storage/app/public/' . auth()->user()->user_picture) }}" class="img-fluid" alt="users-avatar">
                                                             </div>
                                                             <div class="profile pt-4">
                                                                 <h4 class="mb-1">{{ auth()->user()->full_name }}</h4>

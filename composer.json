@@ -12,6 +12,8 @@
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
+        "munafio/chatify": "^1.6",
+        "rtippin/messenger": "^1.22",
         "te7a-houdini/laravel-trix": "^2.0"
     },
     "require-dev": {
@@ -32,7 +34,9 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests/"
+            "Tests\\": "tests/",
+            "App\\": "app/",
+        "Chatify\\": "Chatify/"
         }
     },
     "scripts": {

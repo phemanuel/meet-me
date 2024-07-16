@@ -4,7 +4,7 @@
 		<!-- Mobile Specific Meta -->
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<!-- Favicon-->
-		<link rel="shortcut icon" href="{{asset('homeback/img/fav.png')}}">
+		<link rel="shortcut icon" href="{{asset('homeback/img/favicon_new.png')}}">
 		<!-- Author Meta -->
 		<meta name="author" content="codepixer">
 		<!-- Meta Description -->
@@ -65,7 +65,7 @@
 			    <div class="container">
 			    	<div class="row align-items-center justify-content-between d-flex">
 				      <div id="logo">
-				        <a href="{{route('dashboard')}}"><img src="{{asset('homeback/img/logo1.png')}}" alt="" title="" /></a>
+				        <a href="{{route('home')}}"><img src="{{asset('homeback/img/loom_logo.png')}}" alt="" title="" /></a>
 				      </div>
 				      <nav id="nav-menu-container">
 				        <ul class="nav-menu">				          
@@ -88,14 +88,24 @@
                             <li><a href=""></a></li>                                                                   
                             @endif
 				            </ul>
-				          </li>				          
-						  <li>						
+				          </li>	
+				          <li>
+							<a href="{{ route('user-message') }}" class="message-icon-wrapper">
+								<img src="{{ asset('homeback/img/message.png') }}" alt="message_icon" class="message-icon">
+								<span class="badge {{ $unreadMessagesCount > 1 ? 'blink' : '' }}">{{ $unreadMessagesCount }}</span>
+							</a>
+							</li>
+						  <li class="menu-has-children">
 							<div class="profile-frame">
 								<img src="{{ asset('storage/' . auth()->user()->user_picture) }}" alt="Profile Picture">
 							</div>	
-						</li>
-						<li><a class="ticker-btn" href="{{ route('dashboard-organization') }}">Profile</a></li>
-						<li><a class="ticker-btn" href="{{ route('logout') }}">Logout</a></li>
+							<ul>
+							<li><a href="{{ route('dashboard-organization') }}">Profile</a></li>
+							<li><a href="{{ route('logout') }}">Logout</a></li>
+							</ul>
+						</li>	
+						<!--<li><a class="ticker-btn" href="{{ route('dashboard-organization') }}">Profile</a></li>-->
+						<!--<li><a class="ticker-btn" href="{{ route('logout') }}">Logout</a></li>-->
 						@elseif (auth()->user()->user_type == 'Freelancer')
 						<li class="menu-active"><a href="{{route('home')}}">Home</a></li>
 						  <li><a href="{{route('find-upskill')}}">Upskill Opportunities</a></li>						  
@@ -112,13 +122,23 @@
                             @endif
 				            </ul>
 				          </li>				          
-						  <li>						
+						  <li>
+							<a href="{{ route('user-message') }}" class="message-icon-wrapper">
+								<img src="{{ asset('homeback/img/message.png') }}" alt="message_icon" class="message-icon">
+								<span class="badge {{ $unreadMessagesCount > 1 ? 'blink' : '' }}">{{ $unreadMessagesCount }}</span>
+							</a>
+							</li>			          
+						  <li class="menu-has-children">
 							<div class="profile-frame">
 								<img src="{{ asset('storage/' . auth()->user()->user_picture) }}" alt="Profile Picture">
 							</div>	
-						</li>
-						<li><a class="ticker-btn" href="{{ route('dashboard') }}">Profile</a></li>
-						<li><a class="ticker-btn" href="{{ route('logout') }}">Logout</a></li>
+							<ul>
+							<li><a href="{{ route('dashboard') }}">Profile</a></li>
+							<li><a href="{{ route('logout') }}">Logout</a></li>
+							</ul>
+						</li>	
+						<!--<li><a class="ticker-btn" href="{{ route('dashboard') }}">Profile</a></li>-->
+						<!--<li><a class="ticker-btn" href="{{ route('logout') }}">Logout</a></li>-->
 						@endif
 						@endauth
 
@@ -138,11 +158,13 @@
                             @endif
 				            </ul>
 				          </li>
-						<li><a class="ticker-btn" href="{{ route('signup') }}">Signup</a></li>
-						<li><a class="ticker-btn" href="{{ route('login') }}">Login</a></li>
+				          <li><a href="{{route('signup')}}">Signup</a></li>
+				          <li><a href="{{route('login')}}">Login</a></li>
+						<!--<li><a class="ticker-btn" href="{{ route('signup') }}">Signup</a></li>-->
+						<!--<li><a class="ticker-btn" href="{{ route('login') }}">Login</a></li>-->
 						@endguest			          				          
 				        </ul>
-				      </nav><!-- #nav-menu-container -->		    		
+				      </nav><!-- #nav-menu-container -->	    		
 			    	</div>
 			    </div>
 			  </header><!-- #header -->
@@ -172,7 +194,7 @@
 						<div class="col-lg-8 post-list">
 							<div class="single-post d-flex flex-row">
 								<div class="thumb">
-                                <img src="{{ asset('storage/' . $postUpskill->company_logo) }}" alt="Company Logo" width="60" height="60">
+                                <img src="{{ asset('storage/app/public/' . $postUpskill->company_logo) }}" alt="Company Logo" width="60" height="60">
 									<ul class="tags">
 										<li>
 											<a href="#">&nbsp;&nbsp;&nbsp;&nbsp;</a>
@@ -224,7 +246,7 @@
 								<div class="active-relatedjob-carusel">									
 									@foreach ($postJobs as $postJob)
 									<div class="single-rated">
-										<img class="img-fluid" src="{{ asset('storage/' . $postJob->company_logo) }}" alt="" width="60" height="60">
+										<img class="img-fluid" src="{{ asset('storage/app/public/' . $postJob->company_logo) }}" alt="" width="60" height="60">
 										<a href="#"><h4>{{$postJob->job_name}}</h4></a>
 										<h6>Created by : {{$postJob->company_name}}</h6>										
 										<a href="{{route('view-job', ['id' => $postJob->id])}}" class="btns text-uppercase">View Details</a>
@@ -294,7 +316,7 @@
 								<p>You can trust us. we only send promo offers, not a single spam.</p>
 								<div id="mc_embed_signup">
 									<form target="_blank" novalidate="true" action="">
-										@csrf
+                                        @csrf
 										<div class="form-group row" style="width: 100%">
 											<div class="col-lg-8 col-md-12">
 												<input name="EMAIL" placeholder="Enter Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Email '" required="" type="email">

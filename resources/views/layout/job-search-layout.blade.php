@@ -63,6 +63,43 @@
 }
             .style2 {color: #000000}
             </style>
+			<style>
+	.message-icon-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.message-icon {
+  width: 24px; /* Adjust the size as needed */
+  height: auto;
+}
+
+.badge {
+  position: absolute;
+  top: -10px; /* Adjust as needed */
+  right: -10px; /* Adjust as needed */
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.blink {
+  animation: blink-animation 1s steps(2, start) infinite;
+}
+
+@keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+
+			</style>
 		</head>
 		<body>
 
@@ -122,8 +159,8 @@
 								<img src="{{ asset('storage/' . auth()->user()->user_picture) }}" alt="Profile Picture">
 							</div>	
 						</li>
-						<li><a class="ticker-btn" href="{{ route('dashboard') }}">Profile</a></li>
-						<li><a class="ticker-btn" href="{{ route('logout') }}">Logout</a></li>
+						<li><a href="{{ route('dashboard') }}">Profile</a></li>
+						<li><a href="{{ route('logout') }}">Logout</a></li>
 						@endif
 						@endauth
 

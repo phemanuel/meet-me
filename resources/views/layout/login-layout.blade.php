@@ -6,7 +6,7 @@
     <title>@yield('pageTitle')</title>
     <link rel="stylesheet" href="{{asset('loginback/vendor/style/style.css')}}">
     <!-- Fontawesome CDN Link -->
-    <link href="{{asset('loginback/vendor/images/favicon.png')}}" rel="icon">
+    <link href="{{asset('loginback/vendor/images/favicon_new.png')}}" rel="icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
@@ -33,7 +33,7 @@
     <input type="checkbox" id="flip">
     <div class="cover">
       <div class="front">
-        <img src="{{asset('loginback/vendor/images/frontImg.jpg')}}" alt="">
+        <img src="{{asset('loginback/vendor/images/front.jpg')}}" alt="">
         <div class="text">
           <span class="text-1">Transform your experiences into a visual story</span>
           <span class="text-2">Where your achievements come to life</span>

@@ -122,8 +122,8 @@
 								<img src="{{ asset('storage/' . auth()->user()->user_picture) }}" alt="Profile Picture">
 							</div>	
 						</li>
-						<li><a class="ticker-btn" href="{{ route('dashboard') }}">Profile</a></li>
-						<li><a class="ticker-btn" href="{{ route('logout') }}">Logout</a></li>
+						<li><a href="{{ route('dashboard') }}">Profile</a></li>
+						<li><a href="{{ route('logout') }}">Logout</a></li>
 						@endif
 						@endauth
 

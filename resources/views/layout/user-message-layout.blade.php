@@ -9,7 +9,7 @@
     <meta name="author" content="Potenza Global Solutions" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <!-- app favicon -->
-    <link rel="shortcut icon" href="{{asset('dashback/assets/img/favicon.png')}}">
+    <link rel="shortcut icon" href="{{asset('dashback/assets/img/favicon_new.png')}}">
     <!-- google fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
     <!-- plugin stylesheets -->
@@ -56,8 +56,8 @@
                     <div class="navbar-header d-flex align-items-center">
                         <a href="javascript:void:(0)" class="mobile-toggle"><i class="ti ti-align-right"></i></a>
                         <a class="navbar-brand" href="{{route('home')}}">
-                            <img src="{{asset('dashback/assets/img/logo.png')}}" class="img-fluid logo-desktop" alt="logo" />
-                            <img src="{{asset('dashback/assets/img/logo-icon.png')}}" class="img-fluid logo-mobile" alt="logo" />
+                            <img src="{{asset('dashback/assets/img/loom_logo.png')}}" class="img-fluid logo-desktop" alt="logo" />
+                            <img src="{{asset('dashback/assets/img/loom_logo.png')}}" class="img-fluid logo-mobile" alt="logo" />
                         </a>
                     </div>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -100,7 +100,7 @@
                                 </li>
                                 <li class="nav-item dropdown user-profile">
                                     <a href="javascript:void(0)" class="nav-link dropdown-toggle " id="navbarDropdown4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <img src="{{ asset('storage/' . auth()->user()->user_picture) }}" alt="avtar-img">
+                                        <img src="{{ asset('storage/app/public/' . auth()->user()->user_picture) }}" alt="avtar-img">
                                         <span class="bg-success user-status"></span>
                                     </a>
                                     <div class="dropdown-menu animated fadeIn" aria-labelledby="navbarDropdown">
@@ -223,35 +223,36 @@
                                                     
                                                         <div class="app-chat-sidebar-user-item">
                                                         <div class="message-container" style="height: 400px; overflow-y: auto;">
-                                                        @if($userMessages->count() == 0)
-                                                                <p align="center"> Inbox empty.</p>
-                                                            @else
-                                                                @foreach($userMessages as $message)
-                                                                    @if($message->user_id !== auth()->user()->id)
-                                                                        <a href="{{ route('user-message-view', ['id' => $message->user_id]) }}">
-                                                                            <div class="d-flex">
-                                                                                <div class="bg-img">
-                                                                                    <img class="img-fluid" src="{{ asset('storage/' . $message->user_picture) }}" alt="user">
-                                                                                    <i class="bg-img-status bg-danger"></i>
-                                                                                </div>
-                                                                                <div>
-                                                                                    <h5 class="mb-0">{{ $message->full_name }}</h5>
-                                                                                    <p><span><i class="zmdi zmdi-check-all mr-2"></i></span>{{ $message->message_type }}</p>
-                                                                                </div>
-                                                                                @if($message->message_status === 'Unread')
-                                                                                    <div class="ml-auto text-right d-none d-xl-block">                                                                    
-                                                                                        <span class="badge badge-success">{{ $message->message_count }}</span>
-                                                                                    </div>
-                                                                                @elseif($message->message_status === 'Read')
-                                                                                    <div class="ml-auto text-right d-none d-xl-block">                                                                    
-                                                                                        <span class="badge badge-danger">{{ $message->message_count }}</span>
-                                                                                    </div>
-                                                                                @endif
-                                                                            </div>
-                                                                        </a>
-                                                                    @endif
-                                                                @endforeach
-                                                            @endif
+                                                       @if($userMessages->count() == 0)
+    <p align="center"> Inbox empty.</p>
+@else
+    @foreach($userMessages as $message)
+        @if($message->user_id != auth()->user()->id)
+            <a href="{{ route('user-message-view', ['id' => $message->user_id]) }}">
+                <div class="d-flex">
+                    <div class="bg-img">
+                        <img class="img-fluid" src="{{ asset('storage/app/public/' . $message->user_picture) }}" alt="user">
+                        <i class="bg-img-status bg-danger"></i>
+                    </div>
+                    <div>
+                        <h5 class="mb-0">{{ $message->full_name }}</h5>
+                        <p><span><i class="zmdi zmdi-check-all mr-2"></i></span>{{ $message->message_type }}</p>
+                    </div>
+                    @if($message->message_status === 'Unread')
+                        <div class="ml-auto text-right d-none d-xl-block">                                                                    
+                            <span class="badge badge-success">{{ $message->message_count }}</span>
+                        </div>
+                    @elseif($message->message_status === 'Read')
+                        <div class="ml-auto text-right d-none d-xl-block">                                                                    
+                            <span class="badge badge-danger">{{ $message->message_count }}</span>
+                        </div>
+                    @endif
+                </div>
+            </a>
+        @endif
+    @endforeach
+@endif
+
 
                                                             </div>
                                                         </div>

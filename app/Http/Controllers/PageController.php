@@ -18,6 +18,7 @@ class PageController extends Controller
 
     public function giveReview()
     {
+        $user_id = auth()->user()->id;
         $messages = UserMessage::where('to_user_id', '=', $user_id)   
         ->where('message_status', 'Unread')
         ->orderBy('created_at', 'desc')
@@ -29,6 +30,7 @@ class PageController extends Controller
 
     public function paymentSetup()
     {
+        $user_id = auth()->user()->id;
         $messages = UserMessage::where('to_user_id', '=', $user_id)   
         ->where('message_status', 'Unread')
         ->orderBy('created_at', 'desc')
@@ -50,8 +52,16 @@ class PageController extends Controller
                 ->WHERE('job_status', 'Open')
                 ->orderBy('created_at', 'desc')
                 ->paginate(3);
+                $user_id = auth()->user()->id;
+        $messages = UserMessage::where('to_user_id', '=', $user_id)   
+                ->where('message_status', 'Unread')
+                ->orderBy('created_at', 'desc')
+                ->get();
+        
+        $unreadMessagesCount = $messages->count();
         //$postJobs = PostJobs::paginate(5); 
-        return view('dashboard.job-category' , compact('categories', 'postJobs','jobLocation','postUpskill','category'));
+        return view('dashboard.job-category' , compact('categories', 'postJobs','jobLocation','postUpskill',
+        'category','messages', 'unreadMessagesCount'));
 
     }
 
@@ -70,7 +80,15 @@ class PageController extends Controller
         // Store the intended URL in the session
         $url = "view-job/{$id}";
         session(['url.intended' => $url]);
-        return view('dashboard.view-job', compact('postJobs','jobLocation','categories','postUpskill'));
+        $user_id = auth()->user()->id;
+        $messages = UserMessage::where('to_user_id', '=', $user_id)   
+        ->where('message_status', 'Unread')
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+        $unreadMessagesCount = $messages->count();
+        return view('dashboard.view-job', compact('postJobs','jobLocation','categories','postUpskill',
+    'messages','unreadMessagesCount'));
     }
 
     public function viewUpskill($id)
@@ -88,7 +106,15 @@ class PageController extends Controller
         // Store the intended URL in the session
         $url = "view-upskill/{$id}";
         session(['url.intended' => $url]);
-        return view('dashboard.view-upskill', compact('postJobs','jobLocation','categories','postUpskill'));
+        $user_id = auth()->user()->id;
+        $messages = UserMessage::where('to_user_id', '=', $user_id)   
+        ->where('message_status', 'Unread')
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+        $unreadMessagesCount = $messages->count();
+        return view('dashboard.view-upskill', compact('postJobs','jobLocation','categories','postUpskill',
+    'messages', 'unreadMessagesCount'));
     }
 
     public function jobLocation($id)
@@ -102,9 +128,16 @@ class PageController extends Controller
         $postJobs = PostJobs::where('job_location', $id)
         ->where('job_status', 'Open')
         ->paginate(5);
+        $user_id = auth()->user()->id;
+        $messages = UserMessage::where('to_user_id', '=', $user_id)   
+        ->where('message_status', 'Unread')
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+        $unreadMessagesCount = $messages->count();
 
         return view('dashboard.view-job-location', compact('jobLocation','categories','postUpskill'
-        ,'postJobs', 'id'));
+        ,'postJobs', 'id','messages','unreadMessagesCount'));
     }
 
     public function jobApply($id)
@@ -189,9 +222,18 @@ class PageController extends Controller
         $jobLocation = PostJobs::groupBy('job_location')
                 ->selectRaw('job_location, COUNT(*) as location_count')
                 ->paginate(10);    
-        $postJobs = PostJobs::all();    
+        $postJobs = PostJobs::all(); 
+        
+        $user_id = auth()->user()->id;
+        $messages = UserMessage::where('to_user_id', '=', $user_id)   
+        ->where('message_status', 'Unread')
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+        $unreadMessagesCount = $messages->count();
        
-        return view('dashboard.find-upskill' , compact('categories', 'postJobs','jobLocation','postUpskill'));
+        return view('dashboard.find-upskill' , compact('categories', 'postJobs','jobLocation','postUpskill',
+    'messages', 'unreadMessagesCount'));
     }
 
     public function findFreelancer()
@@ -216,6 +258,14 @@ class PageController extends Controller
             $allFreelancer = User::where('user_type', 'Freelancer')->paginate(20); 
         $userRoles = UserRoles::all();
         $categories = UserCategory::all();
+
+        // $user_id = auth()->user()->id;
+        // $messages = UserMessage::where('to_user_id', '=', $user_id)   
+        // ->where('message_status', 'Unread')
+        // ->orderBy('created_at', 'desc')
+        // ->get();
+
+        // $unreadMessagesCount = $messages->count();
 
         return view('dashboard.find-freelancer', compact('allFreelancer','userRoles','categories'));
         }        
@@ -250,8 +300,16 @@ class PageController extends Controller
                     ->selectRaw('job_location, COUNT(*) as location_count')
                     ->where('job_status', 'Open')
                     ->paginate(10);
+            $user_id = auth()->user()->id;
+            $messages = UserMessage::where('to_user_id', '=', $user_id)   
+                    ->where('message_status', 'Unread')
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+            
+            $unreadMessagesCount = $messages->count();
 
-            return view('dashboard.job-search', compact('Jobs', 'categories', 'jobLocation', 'postUpskill'));
+            return view('dashboard.job-search', compact('Jobs', 'categories', 'jobLocation', 'postUpskill',
+        'messages', 'unreadMessagesCount'));
         } catch (ValidationException $e) {
             Log::error('Validation failed: ' . $e->getMessage());
             return response()->json(['error' => 'Validation failed'], 422);

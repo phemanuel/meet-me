@@ -73,8 +73,15 @@ class AuthController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->paginate(5);
                 $totalRecords = PostJobs::count();
+
+                $messages = UserMessage::where('to_user_id', '=', $user_id)   
+                ->where('message_status', 'Unread')
+                ->orderBy('created_at', 'desc')
+                ->get();
+
+                $unreadMessagesCount = $messages->count();
         return view('home', compact('categories','totalPercent','postJob','jobLocation','postUpskill'
-                    ,'totalRecords','postJobAll'));
+                    ,'totalRecords','postJobAll','messages','unreadMessagesCount'));
         }
         else {
             $jobLocation = PostJobs::groupBy('job_location')

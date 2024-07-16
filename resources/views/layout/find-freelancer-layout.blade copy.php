@@ -91,7 +91,7 @@
 				          </li>				          
 						  <li>						
 							<div class="profile-frame">
-								<img src="{{ asset('storage/' . auth()->user()->user_picture) }}" alt="Profile Picture">
+								<img src="{{ asset('storage/app/public/' . auth()->user()->user_picture) }}" alt="Profile Picture">
 							</div>	
 						</li>
 						<li><a class="ticker-btn" href="{{ route('dashboard-organization') }}">Profile</a></li>
@@ -114,11 +114,11 @@
 				          </li>				          
 						  <li>						
 							<div class="profile-frame">
-								<img src="{{ asset('storage/' . auth()->user()->user_picture) }}" alt="Profile Picture">
+								<img src="{{ asset('storage/app/public/' . auth()->user()->user_picture) }}" alt="Profile Picture">
 							</div>	
 						</li>
-						<li><a class="ticker-btn" href="{{ route('dashboard') }}">Profile</a></li>
-						<li><a class="ticker-btn" href="{{ route('logout') }}">Logout</a></li>
+						<li><a href="{{ route('dashboard') }}">Profile</a></li>
+						<li><a href="{{ route('logout') }}">Logout</a></li>
 						@endif
 						@endauth
 
@@ -214,7 +214,7 @@
                             @endif
                             <div class="col-md-3 single-team">
                                 <div class="thumb">
-                                    <img class="img-fluid" src="{{ asset('storage/' . $allFreelancers->user_picture) }}" alt="">
+                                    <img class="img-fluid" src="{{ asset('storage/app/public/' . $allFreelancers->user_picture) }}" alt="">
                                     <div class="align-items-center justify-content-center d-flex">
                                         <a href="#"><i class="fa fa-facebook"></i></a>									
                                     </div>

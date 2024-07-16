@@ -4,7 +4,7 @@
 		<!-- Mobile Specific Meta -->
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<!-- Favicon-->
-		<link rel="shortcut icon" href="{{asset('homeback/img/fav.png')}}">
+		<link rel="shortcut icon" href="{{asset('homeback/img/favicon_new.png')}}">
 		<!-- Author Meta -->
 		<meta name="author" content="codepixer">
 		<!-- Meta Description -->
@@ -63,6 +63,43 @@
 }
             .style2 {color: #000000}
             </style>
+			<style>
+	.message-icon-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.message-icon {
+  width: 24px; /* Adjust the size as needed */
+  height: auto;
+}
+
+.badge {
+  position: absolute;
+  top: -10px; /* Adjust as needed */
+  right: -10px; /* Adjust as needed */
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.blink {
+  animation: blink-animation 1s steps(2, start) infinite;
+}
+
+@keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+
+			</style>
 		</head>
 		<body>
 
@@ -70,9 +107,9 @@
 			    <div class="container">
 			    	<div class="row align-items-center justify-content-between d-flex">
 				      <div id="logo">
-                      <a href="{{route('dashboard')}}"><img src="{{asset('homeback/img/logo1.png')}}" alt="" title="" /></a>
+				        <a href="{{route('home')}}"><img src="{{asset('homeback/img/loom_logo.png')}}" alt="" title="" /></a>
 				      </div>
-                      <nav id="nav-menu-container">
+				      <nav id="nav-menu-container">
 				        <ul class="nav-menu">				          
 						  <!-- check if the user is authenticated -->
 				          @auth
@@ -93,14 +130,24 @@
                             <li><a href=""></a></li>                                                                   
                             @endif
 				            </ul>
-				          </li>				          
-						  <li>						
+				          </li>	
+				          <li>
+							<a href="{{ route('user-message') }}" class="message-icon-wrapper">
+								<img src="{{ asset('homeback/img/message.png') }}" alt="message_icon" class="message-icon">
+								<span class="badge {{ $unreadMessagesCount > 1 ? 'blink' : '' }}">{{ $unreadMessagesCount }}</span>
+							</a>
+							</li>
+						  <li class="menu-has-children">
 							<div class="profile-frame">
 								<img src="{{ asset('storage/' . auth()->user()->user_picture) }}" alt="Profile Picture">
 							</div>	
-						</li>
-						<li><a class="ticker-btn" href="{{ route('dashboard-organization') }}">Profile</a></li>
-						<li><a class="ticker-btn" href="{{ route('logout') }}">Logout</a></li>
+							<ul>
+							<li><a href="{{ route('dashboard-organization') }}">Profile</a></li>
+							<li><a href="{{ route('logout') }}">Logout</a></li>
+							</ul>
+						</li>	
+						<!--<li><a class="ticker-btn" href="{{ route('dashboard-organization') }}">Profile</a></li>-->
+						<!--<li><a class="ticker-btn" href="{{ route('logout') }}">Logout</a></li>-->
 						@elseif (auth()->user()->user_type == 'Freelancer')
 						<li class="menu-active"><a href="{{route('home')}}">Home</a></li>
 						  <li><a href="{{route('find-upskill')}}">Upskill Opportunities</a></li>						  
@@ -117,13 +164,23 @@
                             @endif
 				            </ul>
 				          </li>				          
-						  <li>						
+						  <li>
+							<a href="{{ route('user-message') }}" class="message-icon-wrapper">
+								<img src="{{ asset('homeback/img/message.png') }}" alt="message_icon" class="message-icon">
+								<span class="badge {{ $unreadMessagesCount > 1 ? 'blink' : '' }}">{{ $unreadMessagesCount }}</span>
+							</a>
+							</li>			          
+						  <li class="menu-has-children">
 							<div class="profile-frame">
 								<img src="{{ asset('storage/' . auth()->user()->user_picture) }}" alt="Profile Picture">
 							</div>	
-						</li>
-						<li><a class="ticker-btn" href="{{ route('dashboard') }}">Profile</a></li>
-						<li><a class="ticker-btn" href="{{ route('logout') }}">Logout</a></li>
+							<ul>
+							<li><a href="{{ route('dashboard') }}">Profile</a></li>
+							<li><a href="{{ route('logout') }}">Logout</a></li>
+							</ul>
+						</li>	
+						<!--<li><a class="ticker-btn" href="{{ route('dashboard') }}">Profile</a></li>-->
+						<!--<li><a class="ticker-btn" href="{{ route('logout') }}">Logout</a></li>-->
 						@endif
 						@endauth
 
@@ -143,8 +200,10 @@
                             @endif
 				            </ul>
 				          </li>
-						<li><a class="ticker-btn" href="{{ route('signup') }}">Signup</a></li>
-						<li><a class="ticker-btn" href="{{ route('login') }}">Login</a></li>
+				          <li><a href="{{route('signup')}}">Signup</a></li>
+				          <li><a href="{{route('login')}}">Login</a></li>
+						<!--<li><a class="ticker-btn" href="{{ route('signup') }}">Signup</a></li>-->
+						<!--<li><a class="ticker-btn" href="{{ route('login') }}">Login</a></li>-->
 						@endguest			          				          
 				        </ul>
 				      </nav><!-- #nav-menu-container -->		    		
@@ -177,7 +236,7 @@
                             @if($postUpskill->isEmpty())
                             <div class="single-post d-flex flex-row">
 								<div class="thumb">
-									<img src="{{ asset('storage/' . 'company_logo/blank.jpg') }}" alt="" width="60" height="60">
+									<img src="{{ asset('storage/app/public/' . 'company_logo/blank.jpg') }}" alt="" width="60" height="60">
 									<ul class="tags">
 										<li>
 											<a href="#"></a>
@@ -204,7 +263,7 @@
                             @foreach($postUpskill as $upskill)
                             <div class="single-post d-flex flex-row">
 								<div class="thumb">
-                                <img src="{{ asset('storage/' . $upskill->company_logo) }}" alt="Company Logo" width="60" height="60">
+                                <img src="{{ asset('storage/app/public/' . $upskill->company_logo) }}" alt="Company Logo" width="60" height="60">
 									
 								</div>
 								<div class="details">
@@ -245,7 +304,7 @@
 								<div class="active-relatedjob-carusel">									
 									@foreach ($postJobs as $job)
 									<div class="single-rated">
-										<img class="img-fluid" src="{{ asset('storage/' . $job->company_logo) }}" alt="" width="100" height="50">
+										<img class="img-fluid" src="{{ asset('storage/app/public/' . $job->company_logo) }}" alt="" width="100" height="50">
 										<a href="#"><h4>{{$job->job_name}}</h4></a>
 										<h6>Created by : {{$job->company_name}}</h6>										
 										<a href="{{route('view-job', ['id' => $job->id])}}" class="btns text-uppercase">View Details</a>
